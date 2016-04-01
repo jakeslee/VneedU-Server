@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="asia.gkc.vneedu.repository.RequirementFileMapper">
+  <resultMap id="BaseResultMap" type="asia.gkc.vneedu.model.RequirementFile">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_file_id" jdbcType="VARCHAR" property="userFileId" />
+    <result column="mime" jdbcType="VARCHAR" property="mime" />
+    <result column="requirement_id" jdbcType="VARCHAR" property="requirementId" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+  </resultMap>
+</mapper>

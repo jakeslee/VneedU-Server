@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="asia.gkc.vneedu.repository.JudgementMapper">
+  <resultMap id="BaseResultMap" type="asia.gkc.vneedu.model.Judgement">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="requirement_id" jdbcType="VARCHAR" property="requirementId" />
+    <result column="judge_id" jdbcType="VARCHAR" property="judgeId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="datetime" jdbcType="TIMESTAMP" property="datetime" />
+    <result column="is_req_creator" jdbcType="INTEGER" property="isReqCreator" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="removed" jdbcType="INTEGER" property="removed" />
+  </resultMap>
+</mapper>

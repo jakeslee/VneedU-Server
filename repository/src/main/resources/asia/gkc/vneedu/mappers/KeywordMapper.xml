@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="asia.gkc.vneedu.repository.KeywordMapper">
+  <resultMap id="BaseResultMap" type="asia.gkc.vneedu.model.Keyword">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="key" jdbcType="VARCHAR" property="key" />
+    <result column="requirement_id" jdbcType="VARCHAR" property="requirementId" />
+  </resultMap>
+</mapper>

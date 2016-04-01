@@ -1,0 +1,5 @@
+rootProject.name = 'vneedu'
+include 'server'
+include 'service'
+include 'repository'
+

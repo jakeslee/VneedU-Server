@@ -1,0 +1,31 @@
+apply plugin: 'war'
+apply plugin: 'org.akhikhl.gretty'
+
+
+buildscript {
+    repositories {
+        maven { url 'http://maven.oschina.net/content/groups/public/' }
+    }
+
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:1.2.4'
+    }
+}
+
+
+gretty {
+    // 移除项目名
+    contextPath = ""
+
+    scanInterval = 1
+    httpPort = 8080
+}
+
+dependencies {
+    compile project(":service")
+    compile (
+        'com.fasterxml.jackson.core:jackson-core:2.7.3',
+        'com.fasterxml.jackson.core:jackson-annotations:2.7.3',
+        'com.fasterxml.jackson.core:jackson-databind:2.7.3',
+    )
+}
