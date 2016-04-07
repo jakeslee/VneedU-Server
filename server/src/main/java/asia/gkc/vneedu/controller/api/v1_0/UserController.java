@@ -4,14 +4,17 @@ import asia.gkc.vneedu.common.ResultStatus;
 import asia.gkc.vneedu.controller.core.BaseController;
 import asia.gkc.vneedu.common.ResultModel;
 import asia.gkc.vneedu.model.User;
+import asia.gkc.vneedu.utils.FilterUtil;
 import asia.gkc.vneedu.utils.IdentityUtil;
 import asia.gkc.vneedu.utils.ValidationUtil;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 
 /**
  * File Name: UserController.java
@@ -24,38 +27,57 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(value = "/api/v1.0")
 public class UserController extends BaseController {
-
     /**
      * 用户注册接口
      * @param user - 用户发送的注册信息
-     * @return
+     * @return ResultModel
      */
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public ResultModel register(@Valid User user) {
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public ResultModel register(@Valid User user, BindingResult errors) {
+        // 校验错误
+        if (errors.hasFieldErrors("phone"))
+            return ResultModel.ERROR(ResultStatus.PHONE_REQUIRED);
+        else if (errors.hasFieldErrors("passwordHash"))
+            return ResultModel.ERROR(ResultStatus.PASSWORD_EMPTY);
 
-        log.debug(user.getPhone());
-        log.debug(user.getId());
 
-        return ResultModel.SUCCESS("哈?");
+        logger.debug(user.getAtId());
+        FilterUtil.exclude(Arrays.asList("at_id"), user);
+        logger.debug(user.getAtId());
+
+        if (userService.checkExistenceOfPhone(user.getPhone())) {
+            return ResultModel.ERROR(ResultStatus.PHONE_EXISTS);
+        }
+
+        userService.addObject(user);
+        logger.info("Add user: " + user.getId());
+
+        return ResultModel.SUCCESS("user", user);
     }
 
     /**
      * 用户登录接口
      * @param phone - 登录验证的手机号
      * @param password - 对应的密码
-     * @return
+     * @return ResultModel
      */
     @RequestMapping(value = "/user/authorization", method = RequestMethod.POST)
     public ResultModel authorization(String phone, String password) {
-        if (ValidationUtil.isPhoneNumber(phone) && !StringUtils.isEmpty(password)) {
-            User user = userService.verifyPasswordOfUserByPhone(phone, password);
-            if (user == null) {
-                return ResultModel.ERROR(ResultStatus.AYTHORIZATION_PASSWORD_ERROR);
-            }
-            String token = IdentityUtil.generateToken(user.getId());
-            user.setToken(token);
-            return ResultModel.SUCCESS("user", user);
+        // 验证登录信息的合法性
+        if (!ValidationUtil.isPhoneNumber(phone))
+            return ResultModel.ERROR(ResultStatus.PHONE_ILLEGAL);
+        else if (StringUtils.isEmpty(password))
+            return ResultModel.ERROR(ResultStatus.PASSWORD_EMPTY);
+
+        User user = userService.verifyPasswordOfUserByPhone(phone, password);
+        if (user == null) {
+            return ResultModel.ERROR(ResultStatus.AYTHORIZATION_PASSWORD_ERROR);
         }
-        return ResultModel.ERROR(ResultStatus.PASSWORD_EMPTY);
+
+        logger.info("Signed in: " + user.getId());
+
+        String token = IdentityUtil.generateToken(user.getId());
+        user.setToken(token);
+        return ResultModel.SUCCESS("user", user);
     }
 }

@@ -2,6 +2,7 @@ package asia.gkc.vneedu.model;
 
 import asia.gkc.vneedu.utils.IdentityUtil;
 import com.alibaba.fastjson.annotation.JSONField;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 
@@ -25,7 +26,7 @@ public class User {
     /**
      * 用户手机号
      */
-
+    @NotBlank
     private String phone;
     /**
      * 用户邮箱（可选）
@@ -37,6 +38,7 @@ public class User {
      */
     @Column(name = "password_hash")
     @JSONField(serialize = false, deserialize = false)
+    @NotBlank
     private String passwordHash;
 
     /**
