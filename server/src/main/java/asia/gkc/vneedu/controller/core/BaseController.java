@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 
 public abstract class BaseController {
-    protected Log log = LogFactory.getLog(this.getClass());
+    protected Log logger = LogFactory.getLog(this.getClass());
 
     /*
      * Service Injection

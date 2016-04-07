@@ -17,10 +17,21 @@ import java.util.Date;
  */
 
 public class IdentityUtil {
+    /**
+     * 生成密码哈希（加盐）
+     * @param pain_text
+     * @return
+     */
     public static String generate_hash(String pain_text) {
         return BCrypt.hashpw(pain_text, BCrypt.gensalt());
     }
 
+    /**
+     * 验证哈希密码是否正确
+     * @param hash
+     * @param pain_text
+     * @return
+     */
     public static boolean verify_password(String hash, String pain_text) {
         return BCrypt.checkpw(pain_text,hash);
     }

@@ -1,13 +1,28 @@
 package asia.gkc.vneedu.utils;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
  * Created by jakes on 4/5/16.
  */
 public class IdentityUtilTest extends BaseTest {
+    @Test
+    public void generate_hash() throws Exception {
+        String hash = IdentityUtil.generate_hash("test");
+
+        assertNotNull(hash);
+    }
+
+    @Test
+    public void verify_password() throws Exception {
+        String plain_text = "test string";
+
+        String hash = IdentityUtil.generate_hash(plain_text);
+
+        assertTrue(IdentityUtil.verify_password(hash, plain_text));
+    }
 
     @Test
     public void verifyToken() throws Exception {
@@ -17,7 +32,7 @@ public class IdentityUtilTest extends BaseTest {
         String ret = IdentityUtil.verifyToken(token);
         log.info(ret);
 
-        Assert.assertEquals(ret, "hello");
+        assertEquals(ret, "hello");
     }
 
     @Test(expected = ExpiredJwtException.class)
@@ -29,6 +44,6 @@ public class IdentityUtilTest extends BaseTest {
 
     @Test
     public void generateToken() throws Exception {
-        Assert.assertNotNull(IdentityUtil.generateToken("hello"));
+        assertNotNull(IdentityUtil.generateToken("hello"));
     }
 }
