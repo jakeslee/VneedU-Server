@@ -19,5 +19,5 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration("classpath:applicationContext.xml")
 @Transactional
 public abstract class BaseTest {
-    protected Log log = LogFactory.getLog(this.getClass());
+    protected Log logger = LogFactory.getLog(this.getClass());
 }

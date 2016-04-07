@@ -13,35 +13,35 @@ import static org.junit.Assert.*;
  */
 public class UserServiceTest extends DataTest {
     @Autowired
-    UserService userService;
-
+    private UserService userService;
     private User user;
+    private final String TEST_PHONE = "13221111000";
 
     @Before
     public void init() {
         user = new User();
         user.setName("Test Name");
         user.setPassword("Pppassword");
-        user.setPhone("13221061445");
+        user.setPhone(TEST_PHONE);
     }
 
     @Test
     public void checkExistenceOfPhone() throws Exception {
         userService.addObject(user);
-        boolean ret = userService.checkExistenceOfPhone("13221061445");
+        boolean ret = userService.checkExistenceOfPhone(TEST_PHONE);
         assertTrue(ret);
     }
 
     @Test
     public void getUserByPhone() throws Exception {
         userService.addObject(user);
-        User user1 = userService.getUserByPhone("13221061445");
+        User user1 = userService.getUserByPhone(TEST_PHONE);
 
         assertEquals(user.getName(), user1.getName());
     }
 
     @Test
-    public void verifyPasswordOfUserById() throws Exception {
+    public void verifyPasswordOfUserByPhone() throws Exception {
         userService.addObject(user);
 
         assertNotNull(userService.verifyPasswordOfUserByPhone(user.getPhone(), "Pppassword"));

@@ -27,7 +27,7 @@ public class FastJsonTest extends DataTest {
         category.setType("Type");
         category.setId(UUID.randomUUID().toString().replace("-", ""));
         String string = JSON.toJSONString(category);
-        log.info(string);
+        logger.info(string);
         Category category1 = JSON.parseObject(string, Category.class);
 
         assertEquals(category.getId(), category1.getId());

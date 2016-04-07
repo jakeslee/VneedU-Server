@@ -2,12 +2,17 @@ package asia.gkc.vneedu.utils;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import static org.junit.Assert.*;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
 /**
  * Created by jakes on 4/5/16.
  */
-public class IdentityUtilTest extends BaseTest {
+public class IdentityUtilTest {
+    private Log logger = LogFactory.getLog(this.getClass());
+
     @Test
     public void generate_hash() throws Exception {
         String hash = IdentityUtil.generate_hash("test");
@@ -27,10 +32,10 @@ public class IdentityUtilTest extends BaseTest {
     @Test
     public void verifyToken() throws Exception {
         String token = IdentityUtil.generateToken("hello");
-        log.info(token);
+        logger.info(token);
 
         String ret = IdentityUtil.verifyToken(token);
-        log.info(ret);
+        logger.info(ret);
 
         assertEquals(ret, "hello");
     }
