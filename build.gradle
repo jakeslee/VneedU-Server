@@ -13,7 +13,7 @@ allprojects {
     repositories {
         mavenLocal()
         maven { url 'http://maven.oschina.net/content/groups/public/' }
-        maven { url 'http://mirrors.ibiblio.org/pub/mirrors/maven2/' }
+        maven { url 'http://repo2.maven.org/maven2/' }
         mavenCentral()
         jcenter()
     }
