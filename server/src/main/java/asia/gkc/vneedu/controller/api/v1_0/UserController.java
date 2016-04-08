@@ -1,5 +1,7 @@
 package asia.gkc.vneedu.controller.api.v1_0;
 
+import asia.gkc.vneedu.authorization.annotation.ActiveUser;
+import asia.gkc.vneedu.authorization.annotation.RequireLogin;
 import asia.gkc.vneedu.common.ResultStatus;
 import asia.gkc.vneedu.controller.core.BaseController;
 import asia.gkc.vneedu.common.ResultModel;
@@ -7,11 +9,10 @@ import asia.gkc.vneedu.model.User;
 import asia.gkc.vneedu.utils.FilterUtil;
 import asia.gkc.vneedu.utils.IdentityUtil;
 import asia.gkc.vneedu.utils.ValidationUtil;
+import com.alibaba.fastjson.JSON;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Arrays;
@@ -49,10 +50,41 @@ public class UserController extends BaseController {
             return ResultModel.ERROR(ResultStatus.PHONE_EXISTS);
         }
 
-        userService.addObject(user);
+        userService.addObjectWithoutNull(user);
         logger.info("Add user: " + user.getId());
 
         return ResultModel.SUCCESS("user", user);
+    }
+
+    /**
+     * 修改当前用户
+     * @param user - 修改的用户信息
+     * @param currentUser - 当前用户注入
+     * @return 操作结果
+     */
+    @RequestMapping(value = "/user", method = RequestMethod.PUT)
+    @RequireLogin
+    public ResultModel modify(User user, @ActiveUser User currentUser) {
+        user.setId(currentUser.getId());
+
+        // 去除不能通过本API修改的属性和未使用属性atId
+        FilterUtil.exclude(Arrays.asList("passwordHash", "phone", "avatar", "atId"), user);
+
+        logger.info(JSON.toJSONString(user));
+
+        return userService.updateObjectWithoutNull(user) == 1 ?
+                ResultModel.OK() : ResultModel.ERROR(ResultStatus.ERROR_IN_SAVING);
+    }
+
+    /**
+     * 获取用户自己的信息
+     * @param currentUser - 当前用户注入
+     * @return 用户信息
+     */
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @RequireLogin
+    public ResultModel getUser(@ActiveUser User currentUser) {
+        return ResultModel.SUCCESS("user", currentUser);
     }
 
     /**
@@ -80,4 +112,5 @@ public class UserController extends BaseController {
         user.setToken(token);
         return ResultModel.SUCCESS("user", user);
     }
+
 }
