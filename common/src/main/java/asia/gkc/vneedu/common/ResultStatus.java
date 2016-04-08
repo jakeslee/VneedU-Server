@@ -44,6 +44,7 @@ public enum ResultStatus {
     OPERATION_DENIED(4005, "OPERATION DENIED"),
     CODE_ERROR(4006, "CODE ERROR"),
     TOKEN_EXISTS(4007, "TOKEN EXISTS"),
+    ERROR_IN_SAVING(4008, "ERROR IN SAVING"),
 
     /**
      * 授权操作错误

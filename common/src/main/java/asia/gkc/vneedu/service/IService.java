@@ -15,7 +15,11 @@ import java.util.List;
 @Service
 public interface IService<T> {
     int addObject(T entity);
+    int addObjectWithoutNull(T entity);
+
     int updateObject(T entity);
+    int updateObjectWithoutNull(T entity);
+
     int removeByIdWithoutCascadeChecking(String id);
 
     T getObjectById(String id);

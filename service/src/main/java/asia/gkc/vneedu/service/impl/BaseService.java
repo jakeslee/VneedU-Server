@@ -30,8 +30,18 @@ public abstract class BaseService<T> implements IService<T> {
     }
 
     @Override
+    public int addObjectWithoutNull(T entity) {
+        return repository.insertSelective(entity);
+    }
+
+    @Override
     public int updateObject(T entity) {
         return repository.updateByPrimaryKey(entity);
+    }
+
+    @Override
+    public int updateObjectWithoutNull(T entity) {
+        return repository.updateByPrimaryKeySelective(entity);
     }
 
     @Override
