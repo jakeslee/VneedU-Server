@@ -37,5 +37,11 @@ public interface UserService extends IService<User> {
      */
     User verifyPasswordOfUserByPhone(String phone, String password);
 
-
+    /**
+     * 判断AtID是否已经存在
+     *
+     * @param atId - 查询的AtId
+     * @return 结果
+     */
+    boolean checkExistenceOfAtId(String atId);
 }

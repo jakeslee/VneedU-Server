@@ -16,6 +16,7 @@ public class UserServiceTest extends DataTest {
     private UserService userService;
     private User user;
     private final String TEST_PHONE = "13221111000";
+    private final String TEST_ATID = "at_id_test";
 
     @Before
     public void init() {
@@ -23,6 +24,7 @@ public class UserServiceTest extends DataTest {
         user.setName("Test Name");
         user.setPassword("Pppassword");
         user.setPhone(TEST_PHONE);
+        user.setAtId(TEST_ATID);
     }
 
     @Test
@@ -45,5 +47,12 @@ public class UserServiceTest extends DataTest {
         userService.addObject(user);
 
         assertNotNull(userService.verifyPasswordOfUserByPhone(user.getPhone(), "Pppassword"));
+    }
+
+    @Test
+    public void checkExistenceOfAtId() throws Exception {
+        userService.addObjectWithoutNull(user);
+
+        assertTrue(userService.checkExistenceOfAtId(TEST_ATID));
     }
 }

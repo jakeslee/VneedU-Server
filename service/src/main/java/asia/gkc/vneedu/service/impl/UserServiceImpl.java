@@ -17,7 +17,6 @@ import tk.mybatis.mapper.entity.Example;
  */
 @Service(value = "userService")
 public class UserServiceImpl extends BaseService<User> implements UserService {
-
     @Autowired
     private UserMapper userMapper;
 
@@ -29,13 +28,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
      */
     @Override
     public boolean checkExistenceOfPhone(String phone) {
-        Example example = new Example(User.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("phone", phone);
-
-        logger.debug(userMapper);
-
-        return userMapper.selectCountByExample(example) != 0;
+        return userMapper.selectByPhone(phone) != null;
     }
 
     /**
@@ -61,5 +54,16 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         User user = userMapper.selectByPhone(phone);
 
         return user.verify_password(password) ? user : null;
+    }
+
+    /**
+     * 判断AtID是否已经存在
+     *
+     * @param atId - 查询的AtId
+     * @return 结果
+     */
+    @Override
+    public boolean checkExistenceOfAtId(String atId) {
+        return userMapper.selectByAtId(atId) != null;
     }
 }

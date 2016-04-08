@@ -22,4 +22,8 @@
     SELECT * FROM user WHERE phone = #{phone}
   </select>
 
+  <select id="selectByAtId" resultMap="BaseResultMap" >
+    SELECT * FROM user WHERE at_id = #{atId}
+  </select>
+
 </mapper>
