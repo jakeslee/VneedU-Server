@@ -77,6 +77,28 @@ public class UserController extends BaseController {
     }
 
     /**
+     * 修改密码
+     * @param password - 新的密码
+     * @param currentUser - 当前用户注入
+     * @return 操作结果
+     */
+    @RequestMapping(value = "/user/password", method = RequestMethod.PUT)
+    @RequireLogin
+    public ResultModel modify_password(String password, @ActiveUser User currentUser) {
+        // 密码合法性校验
+        if (StringUtils.isEmpty(password)) {
+            return ResultModel.ERROR(ResultStatus.PASSWORD_EMPTY);
+        } else if (password.length() < 5) {
+            return ResultModel.ERROR(ResultStatus.PASSWORD_LENGTH_ERROR);
+        }
+        // 通过密码设置方法设置,不能直接设置密码存储字段
+        currentUser.setPassword(password);
+
+        userService.updateObjectWithoutNull(currentUser);
+        return ResultModel.OK();
+    }
+
+    /**
      * 获取用户自己的信息
      * @param currentUser - 当前用户注入
      * @return 用户信息

@@ -33,7 +33,7 @@
 
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/api/v1.0/*"/>
+            <mvc:mapping path="/api/v1.0/**/"/>
             <bean class="asia.gkc.vneedu.authorization.interceptor.AuthorizationInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
