@@ -21,6 +21,8 @@
     <!-- 开启AOP监听 只对当前配置文件有效 -->
     <aop:aspectj-autoproxy expose-proxy="true" proxy-target-class="true" />
 
-    <bean class="asia.gkc.vneedu.storage.StorageFactory" id="storageFactory"/>
-
+    <!---->
+    <bean id="storageFactory" name="storage" class="asia.gkc.vneedu.storage.StorageFactory" factory-method="getStorage">
+        <constructor-arg name="bucket" type="java.lang.String" value="${app.storage.cdn.bucket}" />
+    </bean>
 </beans>
