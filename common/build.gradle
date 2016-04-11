@@ -20,6 +20,8 @@ dependencies {
             "javax.validation:validation-api:1.1.0.Final",
             // Hibernate Validator depends
             "org.hibernate:hibernate-validator:5.2.4.Final",
+            // Qiniu supports
+            'com.qiniu:qiniu-java-sdk:7.0.+'
     )
 }
 
