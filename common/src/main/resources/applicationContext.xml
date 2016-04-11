@@ -7,11 +7,20 @@
 
 
     <!-- 读取配置文件 -->
-    <context:property-placeholder location="classpath:jdbc-mysql.properties" />
+    <context:property-placeholder
+            location="classpath:jdbc-mysql.properties, classpath:application.properties" />
 
     <!-- 自动扫描(自动注入) -->
-    <context:component-scan base-package="asia.gkc.vneedu.service, asia.gkc.vneedu.authorization.resolver" />
+    <context:component-scan base-package="
+            asia.gkc.vneedu.service,
+            asia.gkc.vneedu.common,
+            asia.gkc.vneedu.storage,
+            asia.gkc.vneedu.utils,
+            asia.gkc.vneedu.authorization.resolver"/>
 
     <!-- 开启AOP监听 只对当前配置文件有效 -->
     <aop:aspectj-autoproxy expose-proxy="true" proxy-target-class="true" />
+
+    <bean class="asia.gkc.vneedu.storage.StorageFactory" id="storageFactory"/>
+
 </beans>

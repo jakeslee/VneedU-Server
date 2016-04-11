@@ -32,6 +32,7 @@ public enum ResultStatus {
     FILE_TYPE_NOT_ALLOWED(3001, "Type of file not allowed"),
     FILE_SIZE_NOT_ALLOWED(3002, "Size of file not allowed"),
     ERROR_IN_TYPE_OF_SEARCHING(3003, "Type searching not allowed"),
+    EMPTY_FILE(3004, "EMPTY FILE"),
 
     /**
      * 用户操作错误
