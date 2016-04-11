@@ -12,4 +12,7 @@
     <result column="mime" jdbcType="VARCHAR" property="mime" />
     <result column="size" jdbcType="INTEGER" property="size" />
   </resultMap>
+  <select id="getFileByHash" resultMap="BaseResultMap">
+    SELECT * FROM file WHERE hash = #{hash}
+  </select>
 </mapper>

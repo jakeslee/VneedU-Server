@@ -12,5 +12,5 @@ import asia.gkc.vneedu.model.File;
  */
 
 public interface FileService extends IService<File> {
-
+    File searchFileViaHash(String hash);
 }

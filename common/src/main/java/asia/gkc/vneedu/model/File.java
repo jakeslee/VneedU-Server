@@ -16,7 +16,7 @@ public class File {
 
     private String mime;
 
-    private Integer size;
+    private Long size;
 
     /**
      * @return id
@@ -91,14 +91,14 @@ public class File {
     /**
      * @return size
      */
-    public Integer getSize() {
+    public Long getSize() {
         return size;
     }
 
     /**
      * @param size
      */
-    public void setSize(Integer size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 }
