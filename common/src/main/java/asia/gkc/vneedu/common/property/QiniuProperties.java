@@ -21,20 +21,27 @@ public final class QiniuProperties {
     private final String bucketName;
     private final String callbackPath;
     private final String uploader;
+    private final String proto;
 
     @Autowired
     public QiniuProperties(@Value("${app.storage.cdn.qiniu.urlPath}") String urlPath,
+                           @Value("${app.storage.cdn.qiniu.proto}") String proto,
                            @Value("${app.storage.cdn.qiniu.name}")  String bucketName,
                            @Value("${app.storage.cdn.qiniu.uploader}") String uploader,
                            @Value("${app.storage.cdn.qiniu.ACCESS_KEY}") String accessKey,
                            @Value("${app.storage.cdn.qiniu.SECRET_KEY}") String secretKey,
                            @Value("${app.storage.cdn.qiniu.callback}") String callbackPath) {
+        this.proto = proto;
         this.uploader = uploader;
         this.accessKey = accessKey;
         this.secretKey = secretKey;
         this.bucketName = bucketName;
         this.callbackPath = callbackPath;
         this.urlPath = urlPath.trim().split(",");
+    }
+
+    public String getProto() {
+        return proto;
     }
 
     public String getAccessKey() {

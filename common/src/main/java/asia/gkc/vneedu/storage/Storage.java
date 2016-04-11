@@ -8,7 +8,7 @@ import java.io.File;
  *
  * @author jakes.
  * @version 1.0
- * @DateTime 4/9/16 10:59 AM
+ * @since 4/9/16 10:59 AM
  */
 
 public interface Storage {
@@ -17,16 +17,34 @@ public interface Storage {
      *
      * @param file - 指定的文件
      * @param key - 文件在服务器存储
-     * @return 上传的文件的哈希值
+     * @return 上传的文件的key
      */
-    String uploadFile(File file, String key);
+    String uploadFile(final File file, final String key);
+
+    /**
+     * 上传数据
+     *
+     * @param data - 数据内容
+     * @param key - 存储名称
+     * @param mimeType - 数据类型
+     * @return 存储的key
+     */
+    String uploadFile(final byte[] data, final String key, final String mimeType);
 
     /**
      * 删除指定的文件
      *
      * @param key - 指定文件的Key
      */
-    void deleteFile(String key);
+    boolean deleteFile(String key);
+
+    /**
+     * 获取访问Uri
+     *
+     * @param key - 检索的key
+     * @return URI of resource
+     */
+    String getUri(String key);
 
     /**
      * 获取文件上传的Token

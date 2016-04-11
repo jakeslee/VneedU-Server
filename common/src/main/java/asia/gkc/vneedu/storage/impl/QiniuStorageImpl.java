@@ -1,6 +1,5 @@
 package asia.gkc.vneedu.storage.impl;
 
-import asia.gkc.vneedu.common.property.CdnProperties;
 import asia.gkc.vneedu.storage.Storage;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
@@ -8,8 +7,6 @@ import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
-import com.sun.istack.internal.Nullable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -44,12 +41,35 @@ public class QiniuStorageImpl extends BaseStorage implements Storage {
      * @return 上传的文件的哈希值
      */
     @Override
-    public String uploadFile(File file, @Nullable String key) {
+    public String uploadFile(final File file, final String key) {
         try {
             Response response = uploadManager.put(file, key, auth.uploadToken(qiniuProperties.getBucketName()));
 
             if (response.isOK())
-                return (String) response.jsonToMap().get("hash");
+                return (String) response.jsonToMap().get("key");
+        } catch (QiniuException e) {
+            logger.warn(e.toString());
+        }
+
+        return null;
+    }
+
+    /**
+     * 上传数据
+     *
+     * @param data     - 数据内容
+     * @param key      - 存储名称
+     * @param mimeType - 数据类型
+     * @return 存储的哈希
+     */
+    @Override
+    public String uploadFile(byte[] data, String key, String mimeType) {
+        try {
+            Response response = uploadManager.put(data, key, auth.uploadToken(qiniuProperties.getBucketName()),
+                    null, mimeType, false);
+
+            if (response.isOK())
+                return (String) response.jsonToMap().get("key");
         } catch (QiniuException e) {
             logger.warn(e.toString());
         }
@@ -63,12 +83,25 @@ public class QiniuStorageImpl extends BaseStorage implements Storage {
      * @param key - 指定文件的Key
      */
     @Override
-    public void deleteFile(String key) {
+    public boolean deleteFile(String key) {
         try {
             bucketManager.delete(qiniuProperties.getBucketName(), key);
+            return true;
         } catch (QiniuException e) {
             logger.warn(e.toString());
         }
+        return false;
+    }
+
+    /**
+     * 获取访问Uri
+     *
+     * @param key - 检索的key
+     * @return URI of resource
+     */
+    @Override
+    public String getUri(String key) {
+        return String.format("%s://%s", qiniuProperties.getProto(), key);
     }
 
     /**
