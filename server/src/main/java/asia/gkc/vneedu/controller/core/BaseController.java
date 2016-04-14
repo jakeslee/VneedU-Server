@@ -1,9 +1,6 @@
 package asia.gkc.vneedu.controller.core;
 
-import asia.gkc.vneedu.service.CategoryService;
-import asia.gkc.vneedu.service.FileService;
-import asia.gkc.vneedu.service.UserFileService;
-import asia.gkc.vneedu.service.UserService;
+import asia.gkc.vneedu.service.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +44,8 @@ public abstract class BaseController {
     // User File Service
     @Autowired
     protected UserFileService userFileService;
+
+    // Requirement Service
+    @Autowired
+    protected RequirementService requirementService;
 }
