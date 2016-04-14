@@ -24,9 +24,9 @@ public class Constants {
     public static final String AUTHORIZATION = "authorization";
 
     /**
-     * TOKEN有效期, ms
+     * TOKEN有效期三十天, ms
      */
-    public static final int TOKEN_EXPIRE = 1000 * 60 * 24 * 30;
+    public static final long TOKEN_EXPIRE = 1000L * 60 * 60 * 24 * 30;
 
     /**
      * 加密密钥

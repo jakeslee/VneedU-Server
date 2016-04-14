@@ -1,7 +1,10 @@
 package asia.gkc.vneedu.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Table(name = "requirement")
 public class Requirement {
@@ -12,6 +15,7 @@ public class Requirement {
     /**
      * 需求标题
      */
+    @NotBlank
     private String title;
 
     /**
@@ -33,17 +37,20 @@ public class Requirement {
     /**
      * 需求地址
      */
+    @NotBlank
     private String address;
 
     /**
      * 需求价格
      */
+    @Min(value = 0)
     private Integer price;
 
     /**
      * 支付方式
      */
     @Column(name = "pay_method")
+    @Min(value = 0)
     private Integer payMethod;
 
     /**
@@ -71,6 +78,7 @@ public class Requirement {
     /**
      * 需求地区
      */
+    @NotBlank
     private String area;
 
     /**

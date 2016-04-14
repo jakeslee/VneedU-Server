@@ -24,6 +24,8 @@ public enum ResultStatus {
     NICE_NOT_ONCE(2002, "You have done it before"),
     REQUIREMENT_NOT_EXIST(2003, "Requirement not exist"),
     STATUS_ERROR(2004, "Status error"),
+    INCORRECT_PRICE(2005, "INCORRECT PRICE"),
+    INCORRECT_PAY_METHOD(2006, "INCORRECT PAY METHOD"),
 
     /**
      * 文件操作错误
