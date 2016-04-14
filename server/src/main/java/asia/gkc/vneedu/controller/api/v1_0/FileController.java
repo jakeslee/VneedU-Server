@@ -39,6 +39,13 @@ public class FileController extends BaseController {
     @Autowired
     private Storage storage;
 
+    /**
+     * 将文件存储到存储器
+     *
+     * @param file - 文件
+     * @param user - 用户信息
+     * @return 用户文件模型
+     */
     private UserFile saveFileToStorage(MultipartFile file, User user) {
         if (!file.isEmpty()) {
             try {
@@ -90,6 +97,13 @@ public class FileController extends BaseController {
         return null;
     }
 
+    /**
+     * 文件上传接口
+     *
+     * @param files - 文件列表
+     * @param user - 当前登录的用户
+     * @return 结果
+     */
     @RequestMapping(value = "/file/upload", method = RequestMethod.POST)
     @RequireLogin
     public ResultModel upload_file(@RequestParam("files") MultipartFile[] files, @ActiveUser User user) {

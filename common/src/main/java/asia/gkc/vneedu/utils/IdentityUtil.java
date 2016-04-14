@@ -57,7 +57,7 @@ public class IdentityUtil {
     /**
      * 生成指定期限的Token
      */
-    public static String generateTokenExpireIn(String uid, int expiration) {
+    public static String generateTokenExpireIn(String uid, long expiration) {
         return Jwts.builder()
                 .setSubject("sign").setIssuer("asia.gkc.vneedu").claim("uid", uid)
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
