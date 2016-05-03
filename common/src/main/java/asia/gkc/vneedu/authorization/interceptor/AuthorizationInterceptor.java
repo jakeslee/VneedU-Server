@@ -59,7 +59,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         }
 
         String[] auths = authorization.split(" ");
-        if (! auths[0].equals("token") || StringUtils.isEmpty(auths[1])) {
+        if (! auths[0].equals("token") || (auths.length > 1 && StringUtils.isEmpty(auths[1]))) {
             return exitWithHeaderError(response);
         }
 

@@ -7,6 +7,7 @@ import asia.gkc.vneedu.controller.core.BaseController;
 import asia.gkc.vneedu.common.ResultModel;
 import asia.gkc.vneedu.model.User;
 import asia.gkc.vneedu.utils.FilterUtil;
+import asia.gkc.vneedu.utils.GenerationUtil;
 import asia.gkc.vneedu.utils.IdentityUtil;
 import asia.gkc.vneedu.utils.ValidationUtil;
 import com.alibaba.fastjson.JSON;
@@ -15,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 /**
@@ -41,9 +43,22 @@ public class UserController extends BaseController {
         else if (errors.hasFieldErrors("passwordHash"))
             return ResultModel.ERROR(ResultStatus.PASSWORD_EMPTY);
 
+        if (StringUtils.isEmpty(user.getName())) {
+            LocalDateTime now = LocalDateTime.now();
+            user.setName(String.format("user_%d%d%d%d%d", now.getMonthValue(), now.getDayOfMonth(),
+                    now.getHour(), now.getMinute(), now.getSecond()));
+        }
 
         logger.debug(user.getAtId());
         FilterUtil.exclude(Arrays.asList("at_id"), user);
+
+        // 生成自定义at id
+        String defaultAtId = user.getName().replace(" ", "");
+        while (userService.checkExistenceOfAtId(defaultAtId)) {
+            defaultAtId += GenerationUtil.randomInteger(11, 999);
+        }
+        user.setAtId(defaultAtId);
+
         logger.debug(user.getAtId());
 
         if (userService.checkExistenceOfPhone(user.getPhone())) {
@@ -52,6 +67,9 @@ public class UserController extends BaseController {
 
         userService.addObjectWithoutNull(user);
         logger.info("Add user: " + user.getId());
+
+        String token = IdentityUtil.generateToken(user.getId());
+        user.setToken(token);
 
         return ResultModel.SUCCESS("user", user);
     }
@@ -105,8 +123,29 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     @RequireLogin
-    public ResultModel getUser(@ActiveUser User currentUser) {
+    public ResultModel getUserSelf(@ActiveUser User currentUser) {
+        if (currentUser == null)
+            return ResultModel.ERROR(ResultStatus.AUTHORIZATION_HEADER_ERROR);
         return ResultModel.SUCCESS("user", currentUser);
+    }
+
+    /**
+     * 获取用户信息
+     * @param uid - 用户的ID
+     * @return 用户信息
+     */
+    @RequestMapping(value = "/user/{uid}", method = RequestMethod.GET)
+    @RequireLogin
+    public ResultModel getUser(@PathVariable String uid) {
+        User user = userService.getObjectById(uid);
+
+        if (user == null) {
+            return ResultModel.ERROR(ResultStatus.RESOURCE_NOT_FOUND);
+        }
+
+        FilterUtil.exclude(Arrays.asList("phone"), user);
+
+        return ResultModel.SUCCESS("user", user);
     }
 
     /**
@@ -117,6 +156,7 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/user/authorization", method = RequestMethod.POST)
     public ResultModel authorization(String phone, String password) {
+        logger.debug(phone + password);
         // 验证登录信息的合法性
         if (!ValidationUtil.isPhoneNumber(phone))
             return ResultModel.ERROR(ResultStatus.PHONE_ILLEGAL);
@@ -135,4 +175,8 @@ public class UserController extends BaseController {
         return ResultModel.SUCCESS("user", user);
     }
 
+    @RequestMapping(value = "/user/judgement/{uid}", method = RequestMethod.GET)
+    public ResultModel judgement(@PathVariable String uid) {
+        return ResultModel.OK();
+    }
 }

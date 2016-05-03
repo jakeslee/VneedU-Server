@@ -94,4 +94,15 @@ public class GenerationUtil {
         //return complete hash
         return sb.toString();
     }
+
+    /**
+     * 生成随机整数
+     *
+     * @param min - 最小值
+     * @param max - 最大值
+     * @return 随机数
+     */
+    public static int randomInteger(int min, int max) {
+        return  min + (int)(Math.random() * ((max - min) + 1));
+    }
 }
