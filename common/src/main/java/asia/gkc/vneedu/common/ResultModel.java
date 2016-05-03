@@ -1,5 +1,10 @@
 package asia.gkc.vneedu.common;
 
+import asia.gkc.vneedu.common.property.CdnProperties;
+import com.qiniu.util.StringMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +17,7 @@ import java.util.Map;
  * @DateTime 4/5/16 2:43 PM
  */
 
+@Component
 public class ResultModel {
     /**
      * 返回码
@@ -27,6 +33,19 @@ public class ResultModel {
      * 返回数据
      */
     private Map<String, Object> retData = new HashMap<>();
+
+    private static Map<String, Object> cdnData;
+
+    @Autowired
+    public ResultModel(CdnProperties cdnProperties) {
+        ResultModel.cdnData = new HashMap<>();
+        ResultModel.cdnData.put("cdn", new StringMap()
+                .put("cdn_enable", cdnProperties.isCdnEnabled())
+                .put("local", cdnProperties.getLocalStorageProperties().getUrlPath() + "/" +
+                        cdnProperties.getLocalStorageProperties().getStoreInDir())
+                .put("qiniu", cdnProperties.getQiniuProperties().getUrlPath()).map()
+        );
+    }
 
     public ResultModel() {
         this(ResultStatus.SUCCESS);
@@ -47,6 +66,9 @@ public class ResultModel {
     public ResultModel(ResultStatus resultStatus) {
         this.error = resultStatus.getError();
         this.message = resultStatus.getMessage();
+        if (ResultModel.cdnData != null) {
+            this.retData.putAll(ResultModel.cdnData);
+        }
     }
 
     public ResultModel(ResultStatus resultStatus, String retData) {
@@ -80,7 +102,7 @@ public class ResultModel {
         this.message = message;
     }
 
-    public Object getRetData() {
+    public Map<String, Object> getRetData() {
         return retData;
     }
 

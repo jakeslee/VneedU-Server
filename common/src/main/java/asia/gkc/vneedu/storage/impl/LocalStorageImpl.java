@@ -2,10 +2,13 @@ package asia.gkc.vneedu.storage.impl;
 
 import asia.gkc.vneedu.storage.Storage;
 import asia.gkc.vneedu.utils.GenerationUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
 import asia.gkc.vneedu.utils.FileUtil;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * File Name: LocalStorageImpl.java
@@ -18,6 +21,9 @@ import asia.gkc.vneedu.utils.FileUtil;
 
 @Component
 public class LocalStorageImpl extends BaseStorage implements Storage {
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+
     /**
      * 从Key获取文件
      *
@@ -57,7 +63,6 @@ public class LocalStorageImpl extends BaseStorage implements Storage {
                 return key;
         } catch (IOException e) {
             logger.warn(e.getMessage());
-            e.printStackTrace();
         }
 
         return null;
@@ -73,6 +78,28 @@ public class LocalStorageImpl extends BaseStorage implements Storage {
      */
     @Override
     public String uploadFile(byte[] data, String key, String mimeType) {
+        if (key == null) {
+            key = GenerationUtil.generateSha1ChecksumOfFile(new ByteArrayInputStream(data));
+        }
+
+        String storeIn = FileUtil.join(
+                httpServletRequest.getServletContext().getRealPath(localStorageProperties.getStoreInDir()),
+                key);
+
+        if (!FileUtil.buildDir(storeIn))
+            return null;
+
+        logger.debug(storeIn);
+
+        File destFile = new File(storeIn);
+
+        try {
+            if (FileUtil.transferFile(data, destFile))
+                return key;
+        } catch (IOException e) {
+            logger.warn(e.getMessage());
+        }
+
         return null;
     }
 

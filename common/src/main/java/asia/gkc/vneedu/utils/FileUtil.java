@@ -80,4 +80,19 @@ public class FileUtil {
 
         return true;
     }
+
+    /**
+     * 存储数据到文件
+     *
+     * @param bytes - 存储的数据
+     * @param destination - 目标文件
+     * @return 存放结果
+     * @throws IOException
+     */
+    public static boolean transferFile(byte[] bytes, File destination) throws IOException {
+        FileOutputStream fos = new FileOutputStream(destination);
+        fos.write(bytes);
+        fos.close();
+        return true;
+    }
 }

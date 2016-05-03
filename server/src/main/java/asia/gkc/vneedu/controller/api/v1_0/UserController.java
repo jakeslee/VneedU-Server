@@ -156,7 +156,6 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/user/authorization", method = RequestMethod.POST)
     public ResultModel authorization(String phone, String password) {
-        logger.debug(phone + password);
         // 验证登录信息的合法性
         if (!ValidationUtil.isPhoneNumber(phone))
             return ResultModel.ERROR(ResultStatus.PHONE_ILLEGAL);
@@ -165,7 +164,7 @@ public class UserController extends BaseController {
 
         User user = userService.verifyPasswordOfUserByPhone(phone, password);
         if (user == null) {
-            return ResultModel.ERROR(ResultStatus.AYTHORIZATION_PASSWORD_ERROR);
+            return ResultModel.ERROR(ResultStatus.AUTHORIZATION_PASSWORD_ERROR);
         }
 
         logger.info("Signed in: " + user.getId());

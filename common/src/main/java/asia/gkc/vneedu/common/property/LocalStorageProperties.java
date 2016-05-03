@@ -27,8 +27,7 @@ public final class LocalStorageProperties {
                                   @Value("${app.storage.cdn.local.name}") String name) {
         this.name = name;
         this.urlPath = urlPath;
-        this.storeInDir = storeInDir.startsWith(File.separator) ? storeInDir :
-                this.getClass().getResource("/").getFile() + storeInDir;
+        this.storeInDir = storeInDir;
 
         File baseDir = new File(storeInDir);
         if (!baseDir.exists())

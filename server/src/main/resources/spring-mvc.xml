@@ -48,7 +48,7 @@
     <!-- 上传文件大小限制为31M，31*1024*1024 -->
 
     <!-- 声明DispatcherServlet不要拦截下面声明的目录 -->
-    <mvc:resources mapping="/static/" location="static/**/" />
+    <mvc:resources mapping="/static/**" location="/static/" />
 
     <!-- 声明JSON支持 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
