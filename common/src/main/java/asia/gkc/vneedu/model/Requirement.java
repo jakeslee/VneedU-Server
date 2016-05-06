@@ -84,7 +84,7 @@ public class Requirement {
     /**
      * 需求描述（可选）
      */
-    private String desciption;
+    private String description;
 
     /**
      * @return id
@@ -319,18 +319,18 @@ public class Requirement {
     /**
      * 获取需求描述（可选）
      *
-     * @return desciption - 需求描述（可选）
+     * @return description - 需求描述（可选）
      */
-    public String getDesciption() {
-        return desciption;
+    public String getDescription() {
+        return description;
     }
 
     /**
      * 设置需求描述（可选）
      *
-     * @param desciption 需求描述（可选）
+     * @param description 需求描述（可选）
      */
-    public void setDesciption(String desciption) {
-        this.desciption = desciption;
+    public void setdescription(String description) {
+        this.description = description;
     }
 }

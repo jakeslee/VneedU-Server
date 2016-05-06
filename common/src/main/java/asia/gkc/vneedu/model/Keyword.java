@@ -11,7 +11,7 @@ public class Keyword {
     /**
      * 关键字
      */
-    private String key;
+    private String keyword;
 
     /**
      * 关联需求
@@ -36,19 +36,19 @@ public class Keyword {
     /**
      * 获取关键字
      *
-     * @return key - 关键字
+     * @return keyword - 关键字
      */
-    public String getKey() {
-        return key;
+    public String getKeyword() {
+        return keyword;
     }
 
     /**
      * 设置关键字
      *
-     * @param key 关键字
+     * @param keyword 关键字
      */
-    public void setKey(String key) {
-        this.key = key;
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 
     /**
