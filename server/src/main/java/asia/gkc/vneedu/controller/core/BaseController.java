@@ -48,4 +48,8 @@ public abstract class BaseController {
     // Requirement Service
     @Autowired
     protected RequirementService requirementService;
+
+    // Keyword Service
+    @Autowired
+    protected KeywordService keywordService;
 }
