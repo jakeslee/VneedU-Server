@@ -34,6 +34,7 @@ public class RequirementController extends BaseController {
     @RequireLogin
     public ResultModel newRequirement(@Valid Requirement requirement,
                                       @RequestParam(value = "images", required = false) String images,
+                                      @RequestParam(value = "category") String category,
                                       @ActiveUser User currentUser,
                                       BindingResult errors) {
 
@@ -50,10 +51,12 @@ public class RequirementController extends BaseController {
         String[] files = null;
         if (images != null) {
             JSONArray jsonArray = JSON.parseArray(images);
+            if (jsonArray == null)
+                return ResultModel.ERROR(ResultStatus.BAD_REQUEST);
             files = jsonArray.toArray(new String[0]) ;
         }
 
-        requirementService.addRequirementWithFiles(requirement, files);
+        requirementService.addRequirementWithFiles(requirement, files, category);
 
         if (requirement.getId() == null)
             return ResultModel.ERROR(ResultStatus.ERROR_IN_SAVING);
