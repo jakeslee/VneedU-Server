@@ -10,4 +10,7 @@
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="type" jdbcType="VARCHAR" property="type" />
   </resultMap>
+  <select id="getCategoryByType" resultMap="BaseResultMap">
+    SELECT * FROM category WHERE type = #{type}
+  </select>
 </mapper>
