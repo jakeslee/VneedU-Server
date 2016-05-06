@@ -15,6 +15,7 @@ public enum ResultStatus {
      * 通用错误
      */
     RESOURCE_NOT_FOUND(1000, "RESOURCE NOT FOUND"),
+    BAD_REQUEST(1001, "BAD REQUEST"),
 
     /**
      * 需求操作错误
