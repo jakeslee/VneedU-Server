@@ -1,5 +1,6 @@
 package asia.gkc.vneedu.service.impl;
 
+import asia.gkc.vneedu.model.Category;
 import asia.gkc.vneedu.model.Requirement;
 import asia.gkc.vneedu.repository.CategoryMapper;
 import asia.gkc.vneedu.repository.RequirementMapper;
@@ -34,13 +35,36 @@ public class RequirementServiceImpl extends BaseService<Requirement> implements 
      * 增加需求
      *
      * @param requirement - 需求模型
-     * @param files - 用户文件ID
+     * @param userFiles   - 用户文件ID
      * @return 创建的需求
      */
     @Override
     public Requirement addRequirementWithFiles(Requirement requirement, String[] userFiles) {
-        if (categoryMapper.selectByPrimaryKey(requirement.getCategoryId()) == null)
-            return null;
+        return addRequirementWithFiles(requirement, userFiles, null);
+    }
+
+    /**
+     * 增加需求
+     *
+     * @param requirement - 需求模型
+     * @param userFiles - 用户文件ID
+     * @param category - 分类值
+     * @return 创建的需求
+     */
+    @Override
+    public Requirement addRequirementWithFiles(
+            Requirement requirement, String[] userFiles, String category) {
+
+        if (category == null) {
+            if (categoryMapper.selectByPrimaryKey(requirement.getCategoryId()) == null)
+                return null;
+        } else {
+            Category categoryObj = categoryMapper.getCategoryByType(category);
+            if (categoryObj == null)
+                return null;
+            // 设置分类ID
+            requirement.setCategoryId(categoryObj.getId());
+        }
 
         // 设置当前时间
         requirement.setDatetime(new Date());

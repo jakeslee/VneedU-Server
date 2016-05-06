@@ -16,8 +16,18 @@ public interface RequirementService extends IService<Requirement> {
      * 增加需求
      *
      * @param requirement - 需求模型
-     * @param files - 用户文件ID
+     * @param userFiles - 用户文件ID
      * @return 创建的需求
      */
     Requirement addRequirementWithFiles(Requirement requirement, String[] userFiles);
+
+    /**
+     * 增加需求
+     *
+     * @param requirement - 需求模型
+     * @param userFiles - 用户文件ID
+     * @param category - 分类值
+     * @return 创建的需求
+     */
+    Requirement addRequirementWithFiles(Requirement requirement, String[] userFiles, String category);
 }
