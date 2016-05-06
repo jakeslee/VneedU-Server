@@ -9,6 +9,7 @@ import asia.gkc.vneedu.model.Requirement;
 import asia.gkc.vneedu.model.User;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,6 +36,7 @@ public class RequirementController extends BaseController {
     public ResultModel newRequirement(@Valid Requirement requirement,
                                       @RequestParam(value = "images", required = false) String images,
                                       @RequestParam(value = "category") String category,
+                                      @RequestParam(value = "keywords", required = false) String keywords,
                                       @ActiveUser User currentUser,
                                       BindingResult errors) {
 
@@ -57,6 +59,10 @@ public class RequirementController extends BaseController {
         }
 
         requirementService.addRequirementWithFiles(requirement, files, category);
+
+        if (!StringUtils.isEmpty(keywords)) {
+            keywordService.addKeywordsToRequirement(keywords.split(","), requirement.getId());
+        }
 
         if (requirement.getId() == null)
             return ResultModel.ERROR(ResultStatus.ERROR_IN_SAVING);
