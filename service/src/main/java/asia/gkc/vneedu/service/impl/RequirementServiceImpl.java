@@ -79,29 +79,46 @@ public class RequirementServiceImpl extends BaseService<Requirement> implements 
      * 获取分类最新需求列表
      * 默认每页10条
      *
-     * @param category - 分类
+     * @param category 分类
      *                 latest表示所有分类
-     * @param page     - 页码
+     * @param page     页码
+     * @param removed 是否显示已删除内容
+     *                0: 不显示（默认）;
+     *                1: 显示
      * @return 需求列表
      */
     @Override
-    public List<Requirement> getLatestRequirements(String category, int page) {
-        return getLatestRequirements(category, page, 10);
+    public List<Requirement> getLatestRequirements(String category, int page, int removed) {
+        return getLatestRequirements(category, page, 10, removed, 0);
     }
 
     /**
      * 获取分类最新需求列表
      *
-     * @param category - 分类
+     * @param category 分类
      *                 latest表示所有分类
-     * @param page     - 页码
-     * @param limit    -  每页条数
+     * @param page 页码
+     * @param limit 每页条数
+     * @param removed 是否显示已删除内容
+     *                0: 不显示（默认）;
+     *                1: 显示
+     * @param status 选择订单状态
+     *               0: opened(default)
+     *               1: locked
+     *               -1: closed
+     *               -2: all
      * @return 需求列表
      */
     @Override
-    public List<Requirement> getLatestRequirements(String category, int page, int limit) {
+    public List<Requirement> getLatestRequirements(String category, int page, int limit, int removed, int status) {
         Example example = new Example(Requirement.class);
         Example.Criteria criteria = example.createCriteria();
+
+        // 是否显示已删除
+        criteria.andLessThanOrEqualTo("removed", removed);
+        // 过滤需求
+        if (status != -2)
+            criteria.andEqualTo("tradeStatus", status);
 
         if (!category.equals("latest")) {
             String categoryId = categoryMapper.getCategoryByType(category).getId();
@@ -135,7 +152,7 @@ public class RequirementServiceImpl extends BaseService<Requirement> implements 
             Example imagesExample = new Example(RequirementFile.class);
             imagesExample.createCriteria().andEqualTo("requirementId", item.getId());
             for (String expand: queryCondition.getExpand()) {
-                switch (expand) {
+                switch (expand.toLowerCase().trim()) {
                     case "images":
                         List<RequirementFile> requirementFiles =  requirementFileMapper.selectByExample(imagesExample);
                         map.put("images", requirementFiles);

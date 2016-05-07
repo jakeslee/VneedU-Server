@@ -75,10 +75,16 @@ public class RequirementController extends BaseController {
 
     @RequestMapping(value = "/requirement/latest", method = RequestMethod.GET)
     public ResultModel latestRequirements(
+            @RequestParam(value = "category", defaultValue = "latest") String category,
             @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "exclude", defaultValue = "") String exclude,
-            @RequestParam(value = "expand", defaultValue = "") String expand) {
-        List<Requirement> requirements = requirementService.getLatestRequirements("latest", page);
+            @RequestParam(value = "expand", defaultValue = "") String expand,
+            @RequestParam(value = "limit", defaultValue = "10") int limit,
+            @RequestParam(value = "withremoved", defaultValue = "0") int withRemoved,
+            @RequestParam(value = "status", defaultValue = "0") int status) {
+
+        List<Requirement> requirements = requirementService.getLatestRequirements(
+                category, page, limit, withRemoved, status);
 
         PageInfo pageInfo = new PageInfo<>(requirements);
 

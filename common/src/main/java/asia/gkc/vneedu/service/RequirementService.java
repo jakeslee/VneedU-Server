@@ -37,21 +37,33 @@ public interface RequirementService extends IService<Requirement> {
      * 获取分类最新需求列表
      * 默认每页10条
      *
-     * @param category - 分类
+     * @param category 分类
      *                 latest表示所有分类
-     * @param page - 页码
+     * @param page 页码
+     * @param removed 是否显示已删除内容
+     *                0: 不显示（默认）;
+     *                1: 显示
      * @return 需求列表
      */
-    List<Requirement> getLatestRequirements(String category, int page);
+    List<Requirement> getLatestRequirements(String category, int page, int removed);
 
     /**
      * 获取分类最新需求列表
      *
-     * @param category - 分类
+     * @param category 分类
      *                 latest表示所有分类
-     * @param page - 页码
-     * @param limit -  每页条数
+     * @param page 页码
+     * @param limit 每页条数
+     * @param removed 是否显示已删除内容
+     *                0: 不显示（默认）;
+     *                1: 显示
+     * @param status 选择订单状态
+     *               0: opened(default)
+     *               1: locked
+     *               -1: closed
+     *               -2: all
      * @return 需求列表
      */
-    List<Requirement> getLatestRequirements(String category, int page, int limit);
+    List<Requirement> getLatestRequirements(
+            String category, int page, int limit, int removed, int status);
 }
