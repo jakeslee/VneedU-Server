@@ -3,10 +3,10 @@ package asia.gkc.vneedu.utils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 
 /**
  * File Name: FilterUtil.java
@@ -90,6 +90,11 @@ public abstract class FilterUtil {
             }
         }
 
+        return object;
+    }
+
+    public static Map<String, Object> exclude(List<String> list, Map<String, Object> object) {
+        list.parallelStream().forEach(object::remove);
         return object;
     }
 }
