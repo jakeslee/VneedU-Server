@@ -2,6 +2,8 @@ package asia.gkc.vneedu.service;
 
 import asia.gkc.vneedu.model.Requirement;
 
+import java.util.List;
+
 /**
  * File Name: RequirementService.java
  * Function:
@@ -30,4 +32,26 @@ public interface RequirementService extends IService<Requirement> {
      * @return 创建的需求
      */
     Requirement addRequirementWithFiles(Requirement requirement, String[] userFiles, String category);
+
+    /**
+     * 获取分类最新需求列表
+     * 默认每页10条
+     *
+     * @param category - 分类
+     *                 latest表示所有分类
+     * @param page - 页码
+     * @return 需求列表
+     */
+    List<Requirement> getLatestRequirements(String category, int page);
+
+    /**
+     * 获取分类最新需求列表
+     *
+     * @param category - 分类
+     *                 latest表示所有分类
+     * @param page - 页码
+     * @param limit -  每页条数
+     * @return 需求列表
+     */
+    List<Requirement> getLatestRequirements(String category, int page, int limit);
 }
