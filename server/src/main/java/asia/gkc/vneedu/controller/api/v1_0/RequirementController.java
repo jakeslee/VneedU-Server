@@ -2,6 +2,7 @@ package asia.gkc.vneedu.controller.api.v1_0;
 
 import asia.gkc.vneedu.authorization.annotation.ActiveUser;
 import asia.gkc.vneedu.authorization.annotation.RequireLogin;
+import asia.gkc.vneedu.common.QueryCondition;
 import asia.gkc.vneedu.common.ResultModel;
 import asia.gkc.vneedu.common.ResultStatus;
 import asia.gkc.vneedu.controller.core.BaseController;
@@ -9,6 +10,8 @@ import asia.gkc.vneedu.model.Requirement;
 import asia.gkc.vneedu.model.User;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.github.pagehelper.PageInfo;
+import com.qiniu.util.StringMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * File Name: RequirementController.java
@@ -67,5 +71,25 @@ public class RequirementController extends BaseController {
         if (requirement.getId() == null)
             return ResultModel.ERROR(ResultStatus.ERROR_IN_SAVING);
         return ResultModel.OK();
+    }
+
+    @RequestMapping(value = "/requirement/latest", method = RequestMethod.GET)
+    public ResultModel latestRequirements(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "exclude", defaultValue = "") String exclude,
+            @RequestParam(value = "expand", defaultValue = "") String expand) {
+        List<Requirement> requirements = requirementService.getLatestRequirements("latest", page);
+
+        PageInfo pageInfo = new PageInfo<>(requirements);
+
+        return ResultModel.SUCCESS(new StringMap()
+                .put("requirements",
+                        requirementService.queryProcess(requirements, new QueryCondition(exclude, expand)))
+                .put("page", new StringMap()
+                            .put("page", page)
+                            .put("limit", pageInfo.getSize())
+                            .put("max_pages", pageInfo.getPages()
+                        ).map()
+                ).map());
     }
 }
