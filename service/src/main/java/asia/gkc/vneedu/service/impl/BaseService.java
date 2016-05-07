@@ -1,5 +1,10 @@
 package asia.gkc.vneedu.service.impl;
 
+import asia.gkc.vneedu.common.QueryCondition;
+import asia.gkc.vneedu.repository.CategoryMapper;
+import asia.gkc.vneedu.repository.RequirementFileMapper;
+import asia.gkc.vneedu.repository.RequirementMapper;
+import asia.gkc.vneedu.repository.UserMapper;
 import asia.gkc.vneedu.service.IService;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.logging.Log;
@@ -8,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * File Name: BaseService.java
@@ -19,6 +25,18 @@ import java.util.List;
  */
 
 public abstract class BaseService<T> implements IService<T> {
+    /**
+     * 注入DAO Mapper
+     */
+    @Autowired
+    protected UserMapper userMapper;
+    @Autowired
+    protected CategoryMapper categoryMapper;
+    @Autowired
+    protected RequirementMapper requirementMapper;
+    @Autowired
+    protected RequirementFileMapper requirementFileMapper;
+
     @Autowired
     protected Mapper<T> repository;
 
@@ -59,5 +77,17 @@ public abstract class BaseService<T> implements IService<T> {
     public List<T> selectPage(int pageNumber, int pageSize) {
         PageHelper.startPage(pageNumber, pageSize);
         return repository.select(null);
+    }
+
+    /**
+     * 查询处理
+     *
+     * @param list           - 用于处理的数据
+     * @param queryCondition - 处理操作
+     * @return 处理后的内容
+     */
+    @Override
+    public List<Map<String, Object>> queryProcess(List<T> list, QueryCondition queryCondition) {
+        return null;
     }
 }
