@@ -58,7 +58,7 @@
                     <property name="properties">
                         <value>
                             dialect=mysql
-                            reasonable=true
+                            reasonable=false
                             supportMethodsArguments=true
                             returnPageInfo=check
                             params=count=countSql

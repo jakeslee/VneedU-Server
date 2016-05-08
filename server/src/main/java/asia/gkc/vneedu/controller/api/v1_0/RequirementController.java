@@ -94,8 +94,9 @@ public class RequirementController extends BaseController {
                 .put("page", new StringMap()
                             .put("page", page)
                             .put("limit", pageInfo.getSize())
-                            .put("max_pages", pageInfo.getPages()
-                        ).map()
-                ).map());
+                            .put("max_pages", pageInfo.getPages())
+                            .put("size", pageInfo.getPageSize())
+                        .map())
+                .map());
     }
 }
