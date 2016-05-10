@@ -170,11 +170,13 @@ public class RequirementServiceImpl extends BaseService<Requirement> implements 
                         commentsExample.createCriteria().andEqualTo("requirementId", item.getId());
                         int comments = discussionMapper.selectCountByExample(commentsExample);
                         map.put("comments", comments);
+                        break;
                     case "keywords":
                         Example keywordsExample = new Example(Keyword.class);
                         keywordsExample.createCriteria().andEqualTo("requirementId", item.getId());
                         List<Keyword> keywords = keywordMapper.selectByExample(keywordsExample);
                         map.put("keywords", keywords);
+                        break;
                 }
             }
             map = FilterUtil.exclude(Arrays.asList(queryCondition.getExclude()), map);
