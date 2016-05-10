@@ -18,4 +18,13 @@
     <result column="u_judged" jdbcType="INTEGER" property="uJudged" />
     <result column="c_judged" jdbcType="INTEGER" property="cJudged" />
   </resultMap>
+  <select id="getOrdersByUserId" resultMap="BaseResultMap">
+    SELECT * FROM order_item WHERE #{uid} IN (u_judged, c_judged)
+    <if test="removed == 0">
+      AND ((u_judged = #{uid} AND u_removed = 0) OR (c_judged = #{uid} AND c_removed = 0))
+    </if>
+    <if test="status != -2">
+      AND status = #{status}
+    </if>
+  </select>
 </mapper>

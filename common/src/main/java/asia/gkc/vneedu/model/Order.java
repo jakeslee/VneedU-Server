@@ -3,7 +3,7 @@ package asia.gkc.vneedu.model;
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "order")
+@Table(name = "order_item")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select REPLACE(UUID(),'-','')")
