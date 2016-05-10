@@ -165,6 +165,16 @@ public class RequirementServiceImpl extends BaseService<Requirement> implements 
                         Category category = categoryMapper.selectByPrimaryKey(item.getCategoryId());
                         map.put("category", category);
                         break;
+                    case "comments":
+                        Example commentsExample = new Example(Discussion.class);
+                        commentsExample.createCriteria().andEqualTo("requirementId", item.getId());
+                        int comments = discussionMapper.selectCountByExample(commentsExample);
+                        map.put("comments", comments);
+                    case "keywords":
+                        Example keywordsExample = new Example(Keyword.class);
+                        keywordsExample.createCriteria().andEqualTo("requirementId", item.getId());
+                        List<Keyword> keywords = keywordMapper.selectByExample(keywordsExample);
+                        map.put("keywords", keywords);
                 }
             }
             map = FilterUtil.exclude(Arrays.asList(queryCondition.getExclude()), map);

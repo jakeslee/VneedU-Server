@@ -1,10 +1,7 @@
 package asia.gkc.vneedu.service.impl;
 
 import asia.gkc.vneedu.common.QueryCondition;
-import asia.gkc.vneedu.repository.CategoryMapper;
-import asia.gkc.vneedu.repository.RequirementFileMapper;
-import asia.gkc.vneedu.repository.RequirementMapper;
-import asia.gkc.vneedu.repository.UserMapper;
+import asia.gkc.vneedu.repository.*;
 import asia.gkc.vneedu.service.IService;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.logging.Log;
@@ -36,6 +33,10 @@ public abstract class BaseService<T> implements IService<T> {
     protected RequirementMapper requirementMapper;
     @Autowired
     protected RequirementFileMapper requirementFileMapper;
+    @Autowired
+    protected DiscussionMapper discussionMapper;
+    @Autowired
+    protected KeywordMapper keywordMapper;
 
     @Autowired
     protected Mapper<T> repository;
