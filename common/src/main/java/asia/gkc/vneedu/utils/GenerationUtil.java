@@ -19,6 +19,17 @@ import java.util.UUID;
 
 public class GenerationUtil {
     /**
+     * 通过时间生成订单号
+     *
+     * @param date 时间
+     * @return 订单号
+     */
+    public static String generateOrderNo(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        return simpleDateFormat.format(date) + GenerationUtil.randomInteger(10, 99);
+    }
+
+    /**
      * 生成用户文件路径
      */
     public static String generateUrlOfFile(String filename) {

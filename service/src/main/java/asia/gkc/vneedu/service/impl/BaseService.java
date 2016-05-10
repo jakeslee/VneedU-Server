@@ -3,12 +3,14 @@ package asia.gkc.vneedu.service.impl;
 import asia.gkc.vneedu.common.QueryCondition;
 import asia.gkc.vneedu.repository.*;
 import asia.gkc.vneedu.service.IService;
+import asia.gkc.vneedu.utils.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.common.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +39,8 @@ public abstract class BaseService<T> implements IService<T> {
     protected DiscussionMapper discussionMapper;
     @Autowired
     protected KeywordMapper keywordMapper;
+    @Autowired
+    protected OrderMapper orderMapper;
 
     @Autowired
     protected Mapper<T> repository;
@@ -89,6 +93,12 @@ public abstract class BaseService<T> implements IService<T> {
      */
     @Override
     public List<Map<String, Object>> queryProcess(List<T> list, QueryCondition queryCondition) {
-        return null;
+        List<Map<String, Object>> result = new ArrayList<>();
+
+        for (T item: list) {
+            Map<String, Object> map = BeanUtil.beanToMap(item, item.getClass());
+            result.add(map);
+        }
+        return result;
     }
 }
