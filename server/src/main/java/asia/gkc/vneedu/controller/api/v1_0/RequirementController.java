@@ -14,12 +14,10 @@ import com.github.pagehelper.PageInfo;
 import com.qiniu.util.StringMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -97,6 +95,21 @@ public class RequirementController extends BaseController {
                             .put("max_pages", pageInfo.getPages())
                             .put("size", pageInfo.getPageSize())
                         .map())
+                .map());
+    }
+
+    @RequestMapping(value = "/requirement/{id}", method = RequestMethod.GET)
+    public ResultModel getRequirement(@PathVariable("id") String reqId,
+                                      @RequestParam(value = "exclude", defaultValue = "") String exclude,
+                                      @RequestParam(value = "expand", defaultValue = "") String expand) {
+        Requirement requirement = requirementService.getObjectById(reqId);
+
+        if (requirement == null)
+            return ResultModel.ERROR(ResultStatus.REQUIREMENT_NOT_EXIST);
+
+        return ResultModel.SUCCESS(new StringMap()
+                .put("requirement", requirementService.queryProcess(Arrays.asList(requirement),
+                        new QueryCondition(exclude, expand)).get(0))
                 .map());
     }
 }
