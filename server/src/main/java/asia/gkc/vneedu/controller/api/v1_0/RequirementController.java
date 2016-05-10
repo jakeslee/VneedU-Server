@@ -112,4 +112,25 @@ public class RequirementController extends BaseController {
                         new QueryCondition(exclude, expand)).get(0))
                 .map());
     }
+
+    @RequestMapping(value = "/requirement/discussions/{id}", method = RequestMethod.GET)
+    public ResultModel getDiscussions(@PathVariable("id") String reqId,
+                                      @RequestParam(value = "exclude", defaultValue = "") String exclude,
+                                      @RequestParam(value = "expand", defaultValue = "") String expand) {
+        Requirement requirement = requirementService.getObjectById(reqId);
+
+        if (requirement == null)
+            return ResultModel.ERROR(ResultStatus.REQUIREMENT_NOT_EXIST);
+
+        return ResultModel.SUCCESS(new StringMap()
+                .put("discussions", discussionService.getDiscussionsByReqId(reqId))
+                /* 现在的讨论实现暂时是输出所有数据,并且不进行过滤了处理 */
+                .put("page", new StringMap()
+                        .put("page", 1)
+                        .put("limit", 0)
+                        .put("max_pages", 1)
+                        .map())
+                .map());
+    }
+
 }

@@ -52,4 +52,8 @@ public abstract class BaseController {
     // Keyword Service
     @Autowired
     protected KeywordService keywordService;
+
+    // Discussion Service
+    @Autowired
+    protected DiscussionService discussionService;
 }
