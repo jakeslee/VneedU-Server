@@ -51,6 +51,7 @@ public class ActiveUserArgumentResolver implements HandlerMethodArgumentResolver
             return userService.getObjectById(uuid);
         }
 
-        throw new MissingServletRequestPartException(Constants.USER_ID_IN_REQUEST);
+        return null;
+        //throw new MissingServletRequestPartException(Constants.USER_ID_IN_REQUEST);
     }
 }
