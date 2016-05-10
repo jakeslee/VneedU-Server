@@ -56,4 +56,8 @@ public abstract class BaseController {
     // Discussion Service
     @Autowired
     protected DiscussionService discussionService;
+
+    // Order Service
+    @Autowired
+    protected OrderService orderService;
 }
