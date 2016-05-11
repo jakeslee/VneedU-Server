@@ -9,9 +9,7 @@ import asia.gkc.vneedu.utils.BeanUtil;
 import asia.gkc.vneedu.utils.FilterUtil;
 import asia.gkc.vneedu.utils.GenerationUtil;
 import com.github.pagehelper.PageHelper;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
 
 import java.util.*;
 
@@ -133,6 +131,7 @@ public class OrderServiceImpl extends BaseService<Order> implements OrderService
                         break;
                     case "user":
                         User user = userMapper.selectByPrimaryKey(item.getUserId());
+                        logger.debug(user.getName());
                         map.put("user", user);
                         break;
                     case "requirement":

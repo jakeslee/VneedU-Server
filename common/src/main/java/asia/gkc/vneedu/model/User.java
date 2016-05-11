@@ -256,10 +256,6 @@ public class User {
         this.token = token;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
