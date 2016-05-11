@@ -19,9 +19,9 @@
     <result column="c_judged" jdbcType="INTEGER" property="cJudged" />
   </resultMap>
   <select id="getOrdersByUserId" resultMap="BaseResultMap">
-    SELECT * FROM order_item WHERE #{uid} IN (u_judged, c_judged)
+    SELECT * FROM order_item WHERE #{uid} IN (creator_id, user_id)
     <if test="removed == 0">
-      AND ((u_judged = #{uid} AND u_removed = 0) OR (c_judged = #{uid} AND c_removed = 0))
+      AND ((user_id = #{uid} AND u_removed = 0) OR (creator_id = #{uid} AND c_removed = 0))
     </if>
     <if test="status != -2">
       AND status = #{status}
