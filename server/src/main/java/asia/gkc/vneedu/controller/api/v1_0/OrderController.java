@@ -6,13 +6,16 @@ import asia.gkc.vneedu.common.QueryCondition;
 import asia.gkc.vneedu.common.ResultModel;
 import asia.gkc.vneedu.common.ResultStatus;
 import asia.gkc.vneedu.controller.core.BaseController;
+import asia.gkc.vneedu.model.Judgement;
 import asia.gkc.vneedu.model.Order;
 import asia.gkc.vneedu.model.User;
 import com.github.pagehelper.PageInfo;
 import com.qiniu.util.StringMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -153,5 +156,54 @@ public class OrderController extends BaseController {
         orderService.finishOrder(order);
 
         return ResultModel.OK();
+    }
+
+    @RequestMapping(value = "/order/judgement/{oid}", method = RequestMethod.POST)
+    @RequireLogin
+    public ResultModel judgement(@PathVariable("oid") String oid,
+                                 @RequestParam(value = "content") String content,
+                                 @RequestParam(value = "score", defaultValue = "5") int score,
+                                 @ActiveUser User user) {
+
+        if (StringUtils.isEmpty(content) || content.length() < 2)
+            return ResultModel.ERROR(ResultStatus.BAD_REQUEST);
+
+        Order order = orderService.getObjectById(oid);
+
+        if (order == null)
+            return ResultModel.ERROR(ResultStatus.RESOURCE_NOT_FOUND);
+
+        boolean ifOrderCreator = true;
+
+        if (order.getUserId().equals(user.getId()))
+            ifOrderCreator = false;
+
+        // 如果不是创建者,且不是需求发起者则表明没有权限操作
+        if (!order.getCreatorId().equals(user.getId()) && ifOrderCreator)
+            return ResultModel.ERROR(ResultStatus.OPERATION_DENIED);
+
+        if (ifOrderCreator && order.getcJudged() != 0 || !ifOrderCreator && order.getuJudged() != 0)
+            return ResultModel.ERROR(ResultStatus.REPETITIVE_OPERATION);
+
+        Judgement judgement = new Judgement();
+        judgement.setContent(content);
+        judgement.setRequirementId(order.getRequirementId());
+        judgement.setDatetime(Calendar.getInstance().getTime());
+        judgement.setScore(score > 5 || score < 0 ? 5 : score);
+        judgement.setUserId(ifOrderCreator ? order.getCreatorId() : order.getUserId());
+        judgement.setIsReqCreator(ifOrderCreator ? 0 : 1);
+        judgement.setJudgeId(ifOrderCreator ? order.getUserId() : order.getCreatorId());
+
+        if (ifOrderCreator)
+            order.setcJudged(1);
+        else
+            order.setuJudged(1);
+
+        try {
+            judgementService.judgeOrder(judgement, order);
+            return ResultModel.OK();
+        } catch (Exception e) {
+            return ResultModel.ERROR(ResultStatus.ERROR_IN_SAVING);
+        }
     }
 }
