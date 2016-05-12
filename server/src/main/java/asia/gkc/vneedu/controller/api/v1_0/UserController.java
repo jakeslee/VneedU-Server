@@ -9,6 +9,7 @@ import asia.gkc.vneedu.common.ResultModel;
 import asia.gkc.vneedu.model.Judgement;
 import asia.gkc.vneedu.model.Requirement;
 import asia.gkc.vneedu.model.User;
+import asia.gkc.vneedu.model.UserFile;
 import asia.gkc.vneedu.utils.FilterUtil;
 import asia.gkc.vneedu.utils.GenerationUtil;
 import asia.gkc.vneedu.utils.IdentityUtil;
@@ -177,6 +178,22 @@ public class UserController extends BaseController {
         String token = IdentityUtil.generateToken(user.getId());
         user.setToken(token);
         return ResultModel.SUCCESS("user", user);
+    }
+
+    @RequestMapping(value = "/user/avatar", method = RequestMethod.PUT)
+    @RequireLogin
+    public ResultModel changeAvatar(@RequestParam(value = "userfile_id") String userFileId,
+                                    @ActiveUser User user) {
+
+        UserFile userFile = userFileService.getObjectById(userFileId);
+
+        if (userFile == null)
+            return ResultModel.ERROR(ResultStatus.FILE_ID_INCORRECT);
+
+        user.setAvatar(userFile.getUrl());
+        userService.updateObjectWithoutNull(user);
+
+        return ResultModel.OK();
     }
 
     @RequestMapping(value = "/user/judgements/{uid}", method = RequestMethod.GET)
