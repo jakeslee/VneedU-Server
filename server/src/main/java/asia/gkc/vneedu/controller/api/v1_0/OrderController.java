@@ -12,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 import com.qiniu.util.StringMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -66,5 +67,91 @@ public class OrderController extends BaseController {
                         .put("max_pages", pageInfo.getPages())
                         .map())
                 .map());
+    }
+
+    @RequestMapping(value = "/order/{oid}", method = RequestMethod.GET)
+    @RequireLogin
+    public ResultModel getOrder(@PathVariable("oid") String oid,
+                                @RequestParam(value = "exclude", defaultValue = "") String exclude,
+                                @RequestParam(value = "expand", defaultValue = "") String expand,
+                                @ActiveUser User user) {
+        Order order = orderService.getObjectById(oid);
+
+        if (order == null)
+            return ResultModel.ERROR(ResultStatus.RESOURCE_NOT_FOUND);
+
+        if (!order.getCreatorId().equals(user.getId()) && !order.getUserId().equals(user.getId()))
+            return ResultModel.ERROR(ResultStatus.OPERATION_DENIED);
+
+        return ResultModel.SUCCESS(new StringMap()
+                .put("order", orderService.queryProcess(Arrays.asList(order),
+                        new QueryCondition(exclude, expand)).get(0))
+                .map());
+    }
+
+    @RequestMapping(value = "/order/cancel/{oid}", method = RequestMethod.PUT)
+    @RequireLogin
+    public ResultModel cancelOrder(@PathVariable("oid") String oid,
+                                   @RequestParam(value = "exclude", defaultValue = "") String exclude,
+                                   @RequestParam(value = "expand", defaultValue = "") String expand,
+                                   @ActiveUser User user) {
+        Order order = orderService.getObjectById(oid);
+
+        if (order == null)
+            return ResultModel.ERROR(ResultStatus.RESOURCE_NOT_FOUND);
+
+        if (!order.getCreatorId().equals(user.getId()))
+            return ResultModel.ERROR(ResultStatus.OPERATION_DENIED);
+
+        if (order.getStatus() != 0)
+            return ResultModel.ERROR(ResultStatus.STATUS_ERROR);
+
+        orderService.cancelOrder(order);
+
+        return ResultModel.OK();
+    }
+
+    @RequestMapping(value = "/order/check/{oid}", method = RequestMethod.PUT)
+    @RequireLogin
+    public ResultModel checkOrder(@PathVariable("oid") String oid,
+                                  @RequestParam(value = "exclude", defaultValue = "") String exclude,
+                                  @RequestParam(value = "expand", defaultValue = "") String expand,
+                                  @ActiveUser User user) {
+        Order order = orderService.getObjectById(oid);
+
+        if (order == null)
+            return ResultModel.ERROR(ResultStatus.RESOURCE_NOT_FOUND);
+
+        if (!order.getUserId().equals(user.getId()))
+            return ResultModel.ERROR(ResultStatus.OPERATION_DENIED);
+
+        if (order.getStatus() != 0)
+            return ResultModel.ERROR(ResultStatus.STATUS_ERROR);
+
+        orderService.checkOrder(order);
+
+        return ResultModel.OK();
+    }
+
+    @RequestMapping(value = "/order/finished/{oid}", method = RequestMethod.PUT)
+    @RequireLogin
+    public ResultModel finishOrder(@PathVariable("oid") String oid,
+                                   @RequestParam(value = "exclude", defaultValue = "") String exclude,
+                                   @RequestParam(value = "expand", defaultValue = "") String expand,
+                                   @ActiveUser User user) {
+        Order order = orderService.getObjectById(oid);
+
+        if (order == null)
+            return ResultModel.ERROR(ResultStatus.RESOURCE_NOT_FOUND);
+
+        if (!order.getUserId().equals(user.getId()))
+            return ResultModel.ERROR(ResultStatus.OPERATION_DENIED);
+
+        if (order.getStatus() != 1)
+            return ResultModel.ERROR(ResultStatus.STATUS_ERROR);
+
+        orderService.finishOrder(order);
+
+        return ResultModel.OK();
     }
 }

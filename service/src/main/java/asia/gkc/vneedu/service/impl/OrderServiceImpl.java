@@ -145,4 +145,54 @@ public class OrderServiceImpl extends BaseService<Order> implements OrderService
         }
         return result;
     }
+
+    /**
+     * 确认订单
+     *
+     * @param order 订单
+     * @return
+     */
+    @Override
+    public int checkOrder(Order order) {
+        if (order.getStatus() != 0)
+            return -1;
+        order.setStatus(1);
+        // 确认订单后需求将被关闭
+        Requirement requirement = requirementMapper.selectByPrimaryKey(order.getRequirementId());
+        requirement.setTradeStatus(-1);
+        requirementMapper.updateByPrimaryKeySelective(requirement);
+        return orderMapper.updateByPrimaryKeySelective(order);
+    }
+
+    /**
+     * 取消订单
+     *
+     * @param order 订单
+     * @return
+     */
+    @Override
+    public int cancelOrder(Order order) {
+        if (order.getStatus() != 0)
+            return -1;
+        order.setStatus(-1);
+        // 取消订单后需求将自动解除锁定
+        Requirement requirement = requirementMapper.selectByPrimaryKey(order.getRequirementId());
+        requirement.setTradeStatus(0);
+        requirementMapper.updateByPrimaryKeySelective(requirement);
+        return orderMapper.updateByPrimaryKeySelective(order);
+    }
+
+    /**
+     * 完成订单
+     *
+     * @param order 订单
+     * @return
+     */
+    @Override
+    public int finishOrder(Order order) {
+        if (order.getStatus() != 1)
+            return -1;
+        order.setStatus(2);
+        return orderMapper.updateByPrimaryKeySelective(order);
+    }
 }

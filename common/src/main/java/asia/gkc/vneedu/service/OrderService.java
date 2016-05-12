@@ -63,4 +63,28 @@ public interface OrderService extends IService<Order> {
      * @return 订单列表
      */
     List<Order> getOrdersByUserId(String uid, int page, int limit, int status, int removed);
+
+    /**
+     * 确认订单
+     *
+     * @param order 订单
+     * @return
+     */
+    int checkOrder(Order order);
+
+    /**
+     * 取消订单
+     *
+     * @param order 订单
+     * @return
+     */
+    int cancelOrder(Order order);
+
+    /**
+     * 完成订单
+     *
+     * @param order 订单
+     * @return
+     */
+    int finishOrder(Order order);
 }
