@@ -60,4 +60,8 @@ public abstract class BaseController {
     // Order Service
     @Autowired
     protected OrderService orderService;
+
+    // Judgement Service
+    @Autowired
+    protected JudgementService judgementService;
 }

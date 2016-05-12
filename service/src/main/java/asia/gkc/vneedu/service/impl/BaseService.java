@@ -41,6 +41,8 @@ public abstract class BaseService<T> implements IService<T> {
     protected KeywordMapper keywordMapper;
     @Autowired
     protected OrderMapper orderMapper;
+    @Autowired
+    protected JudgementMapper judgementMapper;
 
     @Autowired
     protected Mapper<T> repository;
