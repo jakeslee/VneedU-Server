@@ -184,4 +184,18 @@ public class RequirementServiceImpl extends BaseService<Requirement> implements 
         }
         return result;
     }
+
+    /**
+     * 赞
+     *
+     * 由于时间有限,暂时不做重复赞验证
+     *
+     * @param requirement 被赞需求
+     * @return
+     */
+    @Override
+    public int raceUp(Requirement requirement) {
+        requirement.setNice(requirement.getNice() + 1);
+        return requirementMapper.updateByPrimaryKeySelective(requirement);
+    }
 }

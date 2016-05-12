@@ -6,6 +6,7 @@ import asia.gkc.vneedu.common.QueryCondition;
 import asia.gkc.vneedu.common.ResultModel;
 import asia.gkc.vneedu.common.ResultStatus;
 import asia.gkc.vneedu.controller.core.BaseController;
+import asia.gkc.vneedu.model.Discussion;
 import asia.gkc.vneedu.model.Requirement;
 import asia.gkc.vneedu.model.User;
 import com.alibaba.fastjson.JSON;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -122,9 +124,11 @@ public class RequirementController extends BaseController {
         if (requirement == null)
             return ResultModel.ERROR(ResultStatus.REQUIREMENT_NOT_EXIST);
 
+        List<Discussion> discussions = discussionService.getDiscussionsByReqId(reqId);
+
         return ResultModel.SUCCESS(new StringMap()
-                .put("discussions", discussionService.getDiscussionsByReqId(reqId))
-                /* 现在的讨论实现暂时是输出所有数据,并且不进行过滤了处理 */
+                .put("discussions", discussionService.queryProcess(discussions, new QueryCondition(exclude, expand)))
+                /* 现在的讨论实现暂时是输出所有数据 */
                 .put("page", new StringMap()
                         .put("page", 1)
                         .put("limit", 0)
@@ -133,4 +137,39 @@ public class RequirementController extends BaseController {
                 .map());
     }
 
+    @RequestMapping(value = "/requirement/discussion/{rid}", method = RequestMethod.POST)
+    @RequireLogin
+    public ResultModel addDiscussion(@PathVariable("rid") String reqId,
+                                     @RequestParam("content") String content,
+                                     @ActiveUser User user) {
+        if (StringUtils.isEmpty(content) || content.length() <= 1)
+            return ResultModel.ERROR(ResultStatus.BAD_REQUEST);
+
+        Requirement requirement = requirementService.getObjectById(reqId);
+
+        if (requirement == null)
+            return ResultModel.ERROR(ResultStatus.REQUIREMENT_NOT_EXIST);
+
+        Discussion discussion = new Discussion();
+        discussion.setRequirementId(reqId);
+        discussion.setDatetime(Calendar.getInstance().getTime());
+        discussion.setSenderId(user.getId());
+        discussion.setContent(content);
+
+        discussionService.addObjectWithoutNull(discussion);
+        return ResultModel.OK();
+    }
+
+    @RequestMapping(value = "/requirement/nice/{rid}", method = RequestMethod.PUT)
+    @RequireLogin
+    public ResultModel raceUp(@PathVariable("rid") String reqId) {
+        Requirement requirement = requirementService.getObjectById(reqId);
+
+        if (requirement == null)
+            return ResultModel.ERROR(ResultStatus.REQUIREMENT_NOT_EXIST);
+
+        requirementService.raceUp(requirement);
+
+        return ResultModel.OK();
+    }
 }

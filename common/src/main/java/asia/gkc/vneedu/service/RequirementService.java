@@ -66,4 +66,12 @@ public interface RequirementService extends IService<Requirement> {
      */
     List<Requirement> getLatestRequirements(
             String category, int page, int limit, int removed, int status);
+
+    /**
+     * 赞
+     *
+     * @param requirement 被赞需求
+     * @return
+     */
+    int raceUp(Requirement requirement);
 }
