@@ -2,9 +2,12 @@ package asia.gkc.vneedu.controller.api.v1_0;
 
 import asia.gkc.vneedu.authorization.annotation.ActiveUser;
 import asia.gkc.vneedu.authorization.annotation.RequireLogin;
+import asia.gkc.vneedu.common.QueryCondition;
 import asia.gkc.vneedu.common.ResultStatus;
 import asia.gkc.vneedu.controller.core.BaseController;
 import asia.gkc.vneedu.common.ResultModel;
+import asia.gkc.vneedu.model.Judgement;
+import asia.gkc.vneedu.model.Requirement;
 import asia.gkc.vneedu.model.User;
 import asia.gkc.vneedu.utils.FilterUtil;
 import asia.gkc.vneedu.utils.GenerationUtil;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * File Name: UserController.java
@@ -174,8 +179,34 @@ public class UserController extends BaseController {
         return ResultModel.SUCCESS("user", user);
     }
 
-    @RequestMapping(value = "/user/judgement/{uid}", method = RequestMethod.GET)
-    public ResultModel judgement(@PathVariable String uid) {
-        return ResultModel.OK();
+    @RequestMapping(value = "/user/judgements/{uid}", method = RequestMethod.GET)
+    @RequireLogin
+    public ResultModel judgements(@PathVariable(value = "uid") String uid) {
+        User user = userService.getObjectById(uid);
+
+        if (user == null)
+            return ResultModel.ERROR(ResultStatus.RESOURCE_NOT_FOUND);
+
+        List<Judgement> judgements = judgementService.getJudgementsByUid(uid);
+
+        List<Map<String, Object>> rets = judgementService.queryProcess(judgements,
+                new QueryCondition("requirementId, userId", "mask_name, avatar"));
+
+        return ResultModel.SUCCESS("judgements", rets);
+    }
+
+    @RequestMapping(value = "/user/requirements/{uid}", method = RequestMethod.GET)
+    @RequireLogin
+    public ResultModel requirements(@PathVariable(value = "uid") String uid) {
+        User user = userService.getObjectById(uid);
+
+        if (user == null)
+            return ResultModel.ERROR(ResultStatus.RESOURCE_NOT_FOUND);
+
+        List<Requirement> requirements = requirementService.getRequirementsByUid(uid);
+
+        return ResultModel.SUCCESS("requirements",
+                requirementService.queryProcess(requirements,
+                        new QueryCondition("", "publisher, comments, category")));
     }
 }

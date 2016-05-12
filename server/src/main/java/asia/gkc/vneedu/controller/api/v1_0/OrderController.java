@@ -190,9 +190,9 @@ public class OrderController extends BaseController {
         judgement.setRequirementId(order.getRequirementId());
         judgement.setDatetime(Calendar.getInstance().getTime());
         judgement.setScore(score > 5 || score < 0 ? 5 : score);
-        judgement.setUserId(ifOrderCreator ? order.getCreatorId() : order.getUserId());
+        judgement.setUserId(ifOrderCreator ? order.getUserId() : order.getCreatorId());
         judgement.setIsReqCreator(ifOrderCreator ? 0 : 1);
-        judgement.setJudgeId(ifOrderCreator ? order.getUserId() : order.getCreatorId());
+        judgement.setJudgeId(user.getId());
 
         if (ifOrderCreator)
             order.setcJudged(1);
