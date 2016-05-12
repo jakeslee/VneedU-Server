@@ -198,4 +198,18 @@ public class RequirementServiceImpl extends BaseService<Requirement> implements 
         requirement.setNice(requirement.getNice() + 1);
         return requirementMapper.updateByPrimaryKeySelective(requirement);
     }
+
+    /**
+     * 通过用户ID获取需求
+     *
+     * @param uid 用户ID
+     * @return 需求列表
+     */
+    @Override
+    public List<Requirement> getRequirementsByUid(String uid) {
+        Example example = new Example(Requirement.class);
+        example.createCriteria().andEqualTo("publisherId", uid);
+
+        return requirementMapper.selectByExample(example);
+    }
 }

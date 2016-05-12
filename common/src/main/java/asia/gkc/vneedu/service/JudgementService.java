@@ -3,6 +3,8 @@ package asia.gkc.vneedu.service;
 import asia.gkc.vneedu.model.Judgement;
 import asia.gkc.vneedu.model.Order;
 
+import java.util.List;
+
 /**
  * File Name: JudgementService.java
  * Function:
@@ -21,4 +23,12 @@ public interface JudgementService extends IService<Judgement> {
      * @return
      */
     boolean judgeOrder(Judgement judgement, Order order);
+
+    /**
+     * 获取用户评价
+     *
+     * @param uid 用户ID
+     * @return
+     */
+    List<Judgement> getJudgementsByUid(String uid);
 }

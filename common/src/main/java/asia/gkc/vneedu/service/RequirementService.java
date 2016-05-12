@@ -74,4 +74,12 @@ public interface RequirementService extends IService<Requirement> {
      * @return
      */
     int raceUp(Requirement requirement);
+
+    /**
+     * 通过用户ID获取需求
+     *
+     * @param uid 用户ID
+     * @return 需求列表
+     */
+    List<Requirement> getRequirementsByUid(String uid);
 }
