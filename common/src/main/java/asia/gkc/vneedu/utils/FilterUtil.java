@@ -94,7 +94,7 @@ public abstract class FilterUtil {
     }
 
     public static Map<String, Object> exclude(List<String> list, Map<String, Object> object) {
-        list.parallelStream().forEach(object::remove);
+        list.parallelStream().forEach((e)-> object.remove(e.trim()));
         return object;
     }
 }
