@@ -27,7 +27,7 @@ dependencies {
 
 ext {
     def prop = new Properties();
-    file("../common/src/main/resources/jdbc-mysql.properties").withInputStream {
+    file("../common/src/main/resources/dev/jdbc-mysql.properties").withInputStream {
         prop.load(it)
     }
     prop.each {

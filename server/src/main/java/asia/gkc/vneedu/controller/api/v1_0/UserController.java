@@ -182,7 +182,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/user/avatar", method = RequestMethod.PUT)
     @RequireLogin
-    public ResultModel changeAvatar(@RequestParam(value = "userfile_id") String userFileId,
+    public ResultModel changeAvatar(@RequestParam(value = "userfileId") String userFileId,
                                     @ActiveUser User user) {
 
         UserFile userFile = userFileService.getObjectById(userFileId);

@@ -1,7 +1,10 @@
 package asia.gkc.vneedu.common.property;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,9 +27,11 @@ public final class CdnProperties {
     public CdnProperties(@Value("${app.storage.cdn.enabled:false}") boolean cdnEnabled,
                          @Value("${app.storage.cdn.bucket}") String bucket,
                          QiniuProperties qiniuProperties,
-                         LocalStorageProperties localStorageProperties) {
+                         LocalStorageProperties localStorageProperties,
+                         Environment environment) {
         this.cdnEnabled = cdnEnabled;
-        this.bucket = bucket;
+        String BUCKET = environment.getProperty("VNEEDU_BUCKET");
+        this.bucket = BUCKET == null ? bucket : BUCKET;
         this.qiniuProperties = qiniuProperties;
         this.localStorageProperties = localStorageProperties;
     }

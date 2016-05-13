@@ -8,7 +8,7 @@
 
     <!-- 读取配置文件 -->
     <context:property-placeholder
-            location="classpath:jdbc-mysql.properties, classpath:application.properties" />
+            location="classpath:${VNEEDU_PRO:dev}/jdbc-mysql.properties, classpath:${VNEEDU_PRO:dev}/application.properties" />
 
     <!-- 自动扫描(自动注入) -->
     <context:component-scan base-package="
