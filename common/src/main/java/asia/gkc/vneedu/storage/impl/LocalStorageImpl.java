@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class LocalStorageImpl extends BaseStorage implements Storage {
-    @Autowired
+    @Autowired(required = false)
     private HttpServletRequest httpServletRequest;
 
     /**
