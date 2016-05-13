@@ -25,6 +25,9 @@ public class InitializeDB extends DataTest {
     private CategoryService categoryService;
 
     private void initCategory(StringMap stringMap) {
+        Category c = categoryService.getCategoryByType((String) stringMap.get("type"));
+        if (c != null)
+            return;
         Category category = new Category();
         category.setName((String) stringMap.get("name"));
         category.setIcon((String) stringMap.get("icon"));

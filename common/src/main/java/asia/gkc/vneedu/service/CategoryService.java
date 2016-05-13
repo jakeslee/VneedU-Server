@@ -12,5 +12,11 @@ import asia.gkc.vneedu.model.Category;
  */
 
 public interface CategoryService extends IService<Category> {
-
+    /**
+     * 通过分类值获取分类
+     *
+     * @param type 分类值
+     * @return 分类
+     */
+    Category getCategoryByType(String type);
 }
