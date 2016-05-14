@@ -32,7 +32,7 @@ public class KeywordServiceImpl extends BaseService<Keyword> implements KeywordS
         Keyword k;
         for (String keyword : keywords) {
             k = new Keyword();
-            k.setKeyword(keyword);
+            k.setKeyword(keyword.trim());
             k.setRequirementId(requirementId);
             keywordMapper.insertSelective(k);
         }

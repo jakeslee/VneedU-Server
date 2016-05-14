@@ -65,7 +65,7 @@ public class RequirementController extends BaseController {
         requirementService.addRequirementWithFiles(requirement, files, category);
 
         if (!StringUtils.isEmpty(keywords)) {
-            keywordService.addKeywordsToRequirement(keywords.split(","), requirement.getId());
+            keywordService.addKeywordsToRequirement(keywords.split("[,，]"), requirement.getId());
         }
 
         if (requirement.getId() == null)
