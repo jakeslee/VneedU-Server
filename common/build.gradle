@@ -1,0 +1,27 @@
+/*
+* 公共资源库
+* ----------------
+* 本模块提供公共的配置资源
+* */
+
+dependencies {
+    compile(
+            // @Table.. supports
+            "javax.persistence:persistence-api:1.0.2",
+            // 支持HttpServletRequest等Servlet API调用
+            "javax.servlet:javax.servlet-api:3.1.0",
+            // JWT supports
+            "io.jsonwebtoken:jjwt:0.6.0",
+            // FastJson
+            "com.alibaba:fastjson:$fastJsonVersion",
+            // Spring Security Crypto
+            'org.springframework.security:spring-security-crypto:4.0.4.RELEASE',
+            // JSR-303 Supports
+            "javax.validation:validation-api:1.1.0.Final",
+            // Hibernate Validator depends
+            "org.hibernate:hibernate-validator:5.2.4.Final",
+            // Qiniu supports
+            'com.qiniu:qiniu-java-sdk:7.0.+'
+    )
+}
+

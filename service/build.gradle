@@ -1,4 +1,71 @@
+configurations {
+    mybatisGenerator
+}
 
 dependencies {
-    compile project(':repository')
+    compile(
+            project(":common"),
+            // Mybatis
+            "org.mybatis:mybatis:$mybatisVersion",
+            // Mybatis Spring
+            "org.mybatis:mybatis-spring:1.2.4",
+            // Druid
+            'com.alibaba:druid:1.0.18',
+            // Mysql Driver
+            'mysql:mysql-connector-java:5.1.38',
+            // Mapper
+            'tk.mybatis:mapper:3.3.8',
+            // PageHelper
+            'com.github.pagehelper:pagehelper:4.1.2',
+    )
+    // 共享data的test代码
+    testCompile project(':common').sourceSets.test.output
+    mybatisGenerator 'org.mybatis.generator:mybatis-generator-core:1.3.2'
+    mybatisGenerator 'mysql:mysql-connector-java:5.1.36'
+    mybatisGenerator 'tk.mybatis:mapper:3.3.8'
+}
+
+ext {
+    def prop = new Properties();
+    file("../common/src/main/resources/dev/jdbc-mysql.properties").withInputStream {
+        prop.load(it)
+    }
+    prop.each {
+        project.extensions.add("$it.key",it.value);
+    }
+}
+
+task mybatisGenerate << {
+    ant.properties['targetProject'] = projectDir.path
+    ant.properties['driverClass'] = project['jdbc.driverClassName']
+    ant.properties['connectionURL'] = project['jdbc.url']
+    ant.properties['userId'] = project['jdbc.username']
+    ant.properties['password'] = project['jdbc.password']
+    ant.properties['src_main_java'] = sourceSets.main.java.srcDirs[0].path
+    ant.properties['src_main_resources'] = sourceSets.main.resources.srcDirs[0].path
+    ant.properties['modelPackage'] = this.modelPackage
+    ant.properties['mapperPackage'] = this.mapperPackage
+    ant.properties['sqlMapperPackage'] = this.sqlMapperPackage
+
+    ant.taskdef(
+            name: 'mbgenerator',
+            classname: 'org.mybatis.generator.ant.GeneratorAntTask',
+            classpath: configurations.mybatisGenerator.asPath
+    )
+    ant.mbgenerator(overwrite: true,
+            configfile: 'src/main/resources/generatorConfig.xml', verbose: true) {
+        propertyset {
+            propertyref(name: 'targetProject')
+            propertyref(name: 'userId')
+            propertyref(name: 'driverClass')
+            propertyref(name: 'connectionURL')
+            propertyref(name: 'password')
+            propertyref(name: 'src_main_java')
+            propertyref(name: 'src_main_resources')
+            propertyref(name: 'modelPackage')
+            propertyref(name: 'mapperPackage')
+            propertyref(name: 'sqlMapperPackage')
+
+        }
+    }
 }
