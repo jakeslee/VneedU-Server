@@ -10,10 +10,11 @@ ext {
 
 allprojects {
     group 'asia.gkc.final'
-    version '1.0-SNAPSHOT'
+    version '0.2-SNAPSHOT'
 
     repositories {
         mavenLocal()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://120.52.72.21/repo2.maven.org/maven2/' }
         maven { url 'http://repo2.maven.org/maven2/' }
         mavenCentral()
