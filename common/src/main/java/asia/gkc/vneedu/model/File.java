@@ -1,9 +1,11 @@
 package asia.gkc.vneedu.model;
 
+import asia.gkc.vneedu.common.BaseModel;
+
 import javax.persistence.*;
 
 @Table(name = "file")
-public class File {
+public class File extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select REPLACE(UUID(),'-','')")
     private String id;

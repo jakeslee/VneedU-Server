@@ -6,7 +6,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!-- 读取配置文件 -->
-    <context:property-placeholder location="classpath:${VNEEDU_PRO:dev}/jdbc-mysql.properties" />
+    <!-- 读取配置文件 -->
+    <context:property-placeholder
+        ignore-resource-not-found="true"
+        ignore-unresolvable="true"
+        location="classpath:${VNEEDU_PRO:dev}/jdbc-mysql.properties, classpath:${VNEEDU_PRO:dev}/application.properties,
+        file:${CONF_DIR:.}/jdbc-mysql.properties, file:${CONF_DIR:.}/application.properties" />
 
     <!-- 配置数据源 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">

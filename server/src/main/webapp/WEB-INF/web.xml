@@ -10,7 +10,7 @@
     <!-- Spring Application Context -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:applicationContext.xml,classpath:spring-mybatis.xml</param-value>
+        <param-value>classpath:applicationContext.xml, classpath:vneedu-consumer.xml</param-value>
     </context-param>
 
     <context-param>

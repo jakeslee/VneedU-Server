@@ -2,6 +2,8 @@ package asia.gkc.vneedu.common;
 
 import org.springframework.util.StringUtils;
 
+import java.io.Serializable;
+
 /**
  * File Name: QueryCondition.java
  * Function:
@@ -11,9 +13,12 @@ import org.springframework.util.StringUtils;
  * @since 5/7/16 1:37 PM
  */
 
-public class QueryCondition {
+public class QueryCondition implements Serializable {
     private String[] exclude;
     private String[] expand;
+
+    public QueryCondition() {
+    }
 
     public QueryCondition(String exclude, String expand) {
         if (!StringUtils.isEmpty(exclude))
