@@ -1,5 +1,6 @@
 package asia.gkc.vneedu.model;
 
+import asia.gkc.vneedu.common.BaseModel;
 import org.hibernate.validator.constraints.NotBlank;
 
 import java.util.Date;
@@ -7,7 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 
 @Table(name = "requirement")
-public class Requirement {
+public class Requirement extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select REPLACE(UUID(),'-','')")
     private String id;

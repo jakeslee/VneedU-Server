@@ -1,9 +1,11 @@
 package asia.gkc.vneedu.model;
 
+import asia.gkc.vneedu.common.BaseModel;
+
 import javax.persistence.*;
 
 @Table(name = "notification")
-public class Notification {
+public class Notification extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select REPLACE(UUID(),'-','')")
     private String id;
