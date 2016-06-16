@@ -22,6 +22,9 @@ gretty {
 
     scanInterval = 1
     httpPort = 8080
+
+    systemProperties = System.properties.findAll {it.key.startsWith("app.")}
+            .collectEntries {[it.key, it.value]}
 }
 
 dependencies {
