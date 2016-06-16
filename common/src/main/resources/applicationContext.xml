@@ -8,7 +8,10 @@
 
     <!-- 读取配置文件 -->
     <context:property-placeholder
-            location="classpath:${VNEEDU_PRO:dev}/jdbc-mysql.properties, classpath:${VNEEDU_PRO:dev}/application.properties" />
+            ignore-unresolvable="true"
+            ignore-resource-not-found="true"
+            location="classpath:${VNEEDU_PRO:dev}/jdbc-mysql.properties, classpath:${VNEEDU_PRO:dev}/application.properties,
+            file:${CONF_DIR:.}/jdbc-mysql.properties, file:${CONF_DIR:.}/application.properties"/>
 
     <!-- 自动扫描(自动注入) -->
     <context:component-scan base-package="
