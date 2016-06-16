@@ -24,7 +24,7 @@
     <dubbo:application name="vneedu-provider-service" owner="jakes" organization="GKC" />
 
     <!-- 注册中心 -->
-    <dubbo:registry protocol="zookeeper" address="${app.soa.registry.address}" />
+    <dubbo:registry protocol="zookeeper" address="${app.soa.registry.address}" group="dubbo"/>
 
     <dubbo:protocol name="dubbo" port="${app.soa.protocol.dubbo.port}" />
 
