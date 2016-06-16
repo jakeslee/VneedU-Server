@@ -9,7 +9,7 @@
 The project is designed for graduation design.The main purpose of this is learning how to build a RESTful API server with Spring MVC and MyBatis frameworks and create a corresponding App with React Native.
 As described above, the project is not ready for production, not recommend to use for business if you clone this repository.
 
-The project was adjusted for SOA pattern by integrating [dubbox](https://github.com/dangdangdotcom/dubbox) after v1.0.BETA released. 
+The project was adjusted for SOA pattern by integrating [dubbox](https://github.com/dangdangdotcom/dubbox) after v0.1.BETA released. 
 
 
 # Features
