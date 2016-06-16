@@ -4,6 +4,8 @@ ext {
     jacksonVersion = '2.6.1'
     log4jVersion = '1.2.17'
     fastJsonVersion = '1.2.8'
+    dubboVersion = '2.8.4'
+    zookeeperVersion = '3.4.8'
 }
 
 allprojects {
@@ -12,7 +14,7 @@ allprojects {
 
     repositories {
         mavenLocal()
-        maven { url 'http://maven.oschina.net/content/groups/public/' }
+        maven { url 'http://120.52.72.21/repo2.maven.org/maven2/' }
         maven { url 'http://repo2.maven.org/maven2/' }
         mavenCentral()
         jcenter()
@@ -39,7 +41,30 @@ subprojects {
                 'org.aspectj:aspectjweaver:1.8.6',
                 // Log4j
                 "log4j:log4j:$log4jVersion",
+                // Zookeeper depends
+                "org.apache.zookeeper:zookeeper:$zookeeperVersion",
+                'com.101tec:zkclient:0.9',
+                // Netty
+                'org.jboss.netty:netty:3.2.10.Final',
+                // Kryo 序列号支持
+                'de.javakaffee:kryo-serializers:0.38',
+                // REST 方式支持
+                /*'org.jboss.resteasy:resteasy-jaxrs:3.0.17.Final',
+                'org.jboss.resteasy:resteasy-client:3.0.17.Final',
+                'org.jboss.resteasy:resteasy-netty:3.0.17.Final',
+                'org.jboss.resteasy:resteasy-jaxb-provider:3.0.17.Final',
+                'org.jboss.resteasy:resteasy-jackson-provider:3.0.17.Final',
+                'org.jboss.resteasy:resteasy-jdk-http:3.0.17.Final',*/
         )
+        // Jetty
+        compile("org.mortbay.jetty:jetty:6.1.26") {
+            exclude group: "org.mortbay.jetty", module: "servlet-api"
+        }
+        // Dubbox
+        compile("com.alibaba:dubbo:$dubboVersion") {
+            exclude module: 'log4j'
+            exclude group: 'org.springframework', module: 'spring'
+        }
         testCompile(
                 "org.springframework:spring-test:$springVersion",
                 "junit:junit:4.11",

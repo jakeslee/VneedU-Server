@@ -1,10 +1,14 @@
+apply plugin: 'application'
+
+mainClassName = 'com.alibaba.dubbo.container.Main'
+
 configurations {
     mybatisGenerator
 }
 
 dependencies {
     compile(
-            project(":common"),
+            project(":vneedu-common"),
             // Mybatis
             "org.mybatis:mybatis:$mybatisVersion",
             // Mybatis Spring
@@ -15,11 +19,9 @@ dependencies {
             'mysql:mysql-connector-java:5.1.38',
             // Mapper
             'tk.mybatis:mapper:3.3.8',
-            // PageHelper
-            'com.github.pagehelper:pagehelper:4.1.2',
     )
     // 共享data的test代码
-    testCompile project(':common').sourceSets.test.output
+    testCompile project(':vneedu-common').sourceSets.test.output
     mybatisGenerator 'org.mybatis.generator:mybatis-generator-core:1.3.2'
     mybatisGenerator 'mysql:mysql-connector-java:5.1.36'
     mybatisGenerator 'tk.mybatis:mapper:3.3.8'

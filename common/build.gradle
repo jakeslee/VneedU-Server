@@ -21,7 +21,9 @@ dependencies {
             // Hibernate Validator depends
             "org.hibernate:hibernate-validator:5.2.4.Final",
             // Qiniu supports
-            'com.qiniu:qiniu-java-sdk:7.0.+'
+            'com.qiniu:qiniu-java-sdk:7.0.+',
+            // PageHelper
+            'com.github.pagehelper:pagehelper:4.1.2',
     )
 }
 
