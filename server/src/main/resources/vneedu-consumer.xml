@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 提供方信息,计算依赖 -->
+    <dubbo:application name="vneedu-consumer-server" owner="jakes" organization="GKC"/>
+
+    <!-- 注册中心 -->
+    <dubbo:registry protocol="zookeeper" address="${app.soa.registry.address}" />
+
+    <!-- 服务引用 -->
+    <dubbo:reference interface="asia.gkc.vneedu.service.CategoryService" id="categoryService"/>
+    <dubbo:reference interface="asia.gkc.vneedu.service.DiscussionService" id="discussionService"/>
+    <dubbo:reference interface="asia.gkc.vneedu.service.FileService" id="fileService"/>
+    <dubbo:reference interface="asia.gkc.vneedu.service.JudgementService" id="judgementService"/>
+    <dubbo:reference interface="asia.gkc.vneedu.service.KeywordService" id="keywordService"/>
+    <dubbo:reference interface="asia.gkc.vneedu.service.OrderService" id="orderService"/>
+    <dubbo:reference interface="asia.gkc.vneedu.service.RequirementFileService" id="requirementFileService"/>
+    <dubbo:reference interface="asia.gkc.vneedu.service.RequirementService" id="requirementService"/>
+    <dubbo:reference interface="asia.gkc.vneedu.service.UserFileService" id="userFileService"/>
+    <dubbo:reference interface="asia.gkc.vneedu.service.UserService" id="userService"/>
+
+</beans>
