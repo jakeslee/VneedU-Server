@@ -32,8 +32,8 @@ import java.util.Map;
  */
 @Service
 public interface IService<T> {
-    int addObject(T entity);
-    int addObjectWithoutNull(T entity);
+    T addObject(T entity);
+    T addObjectWithoutNull(T entity);
 
     int updateObject(T entity);
     int updateObjectWithoutNull(T entity);

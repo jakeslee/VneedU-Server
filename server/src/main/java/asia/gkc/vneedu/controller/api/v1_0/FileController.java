@@ -91,7 +91,7 @@ public class FileController extends BaseController {
                     saved_file.setHash(fileHash);                           // 设置文件哈希
                     saved_file.setSize(file.getSize());                     // 设置文件大小
 
-                    fileService.addObjectWithoutNull(saved_file);
+                    saved_file = fileService.addObjectWithoutNull(saved_file);
                 }
 
                 // 关联到用户
