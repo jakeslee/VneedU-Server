@@ -24,6 +24,7 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
@@ -45,7 +46,9 @@ public class QiniuStorageImpl extends BaseStorage implements Storage {
 
     @PostConstruct
     public void init() {
-        auth = Auth.create(qiniuProperties.getAccessKey(), qiniuProperties.getSecretKey());
+        String key = StringUtils.isEmpty(qiniuProperties.getAccessKey()) ? "1234": qiniuProperties.getAccessKey();
+        String secret = StringUtils.isEmpty(qiniuProperties.getSecretKey()) ? "1234": qiniuProperties.getSecretKey();
+        auth = Auth.create(key, secret);
         bucketManager = new BucketManager(auth);
     }
 
