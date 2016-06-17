@@ -14,10 +14,19 @@
  * limitations under the License.
  */
 
-package asia.gkc.vneedu.repository;
+package asia.gkc.vneedu.common;
 
-import asia.gkc.vneedu.model.UserEstimate;
-import tk.mybatis.mapper.common.Mapper;
+import java.io.Serializable;
 
-public interface UserEstimateMapper extends Mapper<UserEstimate> {
+/**
+ * File Name: BaseModel.java
+ * Function:
+ *
+ * @author jakes.
+ * @version 1.0
+ * @since 6/15/16 8:50 PM
+ */
+
+public class BaseModel implements Serializable {
+    private static final long serialVersionUID = 1L;
 }

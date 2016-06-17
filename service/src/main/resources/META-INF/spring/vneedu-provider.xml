@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2016 Jakes Lee
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 提供方信息,计算依赖 -->
+    <dubbo:application name="vneedu-provider-service" owner="jakes" organization="GKC" />
+
+    <!-- 注册中心 -->
+    <dubbo:registry protocol="zookeeper" address="${app.soa.registry.address}" group="dubbo"/>
+
+    <dubbo:protocol name="dubbo" port="${app.soa.protocol.dubbo.port}" />
+
+    <!--<dubbo:protocol name="rest" port="8988"/>-->
+
+    <!-- 暴露服务 -->
+    <dubbo:service interface="asia.gkc.vneedu.service.CategoryService" ref="categoryService"/>
+    <dubbo:service interface="asia.gkc.vneedu.service.DiscussionService" ref="discussionService"/>
+    <dubbo:service interface="asia.gkc.vneedu.service.FileService" ref="fileService"/>
+    <dubbo:service interface="asia.gkc.vneedu.service.JudgementService" ref="judgementService"/>
+    <dubbo:service interface="asia.gkc.vneedu.service.KeywordService" ref="keywordService"/>
+    <dubbo:service interface="asia.gkc.vneedu.service.OrderService" ref="orderService"/>
+    <dubbo:service interface="asia.gkc.vneedu.service.RequirementFileService" ref="requirementFileService"/>
+    <dubbo:service interface="asia.gkc.vneedu.service.RequirementService" ref="requirementService"/>
+    <dubbo:service interface="asia.gkc.vneedu.service.UserFileService" ref="userFileService"/>
+    <dubbo:service interface="asia.gkc.vneedu.service.UserService" ref="userService"/>
+
+    <!-- Bean 引用 -->
+    <bean id="categoryService" class="asia.gkc.vneedu.service.impl.CategoryServiceImpl"/>
+    <bean id="discussionService" class="asia.gkc.vneedu.service.impl.DiscussionServiceImpl"/>
+    <bean id="fileService" class="asia.gkc.vneedu.service.impl.FileServiceImpl"/>
+    <bean id="judgementService" class="asia.gkc.vneedu.service.impl.JudgementServiceImpl"/>
+    <bean id="keywordService" class="asia.gkc.vneedu.service.impl.KeywordServiceImpl"/>
+    <bean id="orderService" class="asia.gkc.vneedu.service.impl.OrderServiceImpl"/>
+    <bean id="requirementFileService" class="asia.gkc.vneedu.service.impl.RequirementFileServiceImpl"/>
+    <bean id="requirementService" class="asia.gkc.vneedu.service.impl.RequirementServiceImpl"/>
+    <bean id="userFileService" class="asia.gkc.vneedu.service.impl.UserFileServiceImpl"/>
+    <bean id="userService" class="asia.gkc.vneedu.service.impl.UserServiceImpl"/>
+
+</beans>

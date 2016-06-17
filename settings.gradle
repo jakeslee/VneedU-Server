@@ -3,3 +3,6 @@ include 'server'
 include 'service'
 include 'common'
 
+project(':server').name = rootProject.name + "-server"
+project(':service').name = rootProject.name + "-service"
+project(':common').name = rootProject.name + "-common"
