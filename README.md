@@ -16,7 +16,7 @@ The project was adjusted for SOA pattern by integrating [dubbox](https://github.
 
 Here is a list of features:
 
-- Use gradle to manage the dependencies and building ctasks  
+- Use gradle to manage the dependencies and building tasks  
 - Multi-project structure of source tree  
 - SOA pattern practicing  
 - RESTful API practicing  
@@ -52,7 +52,7 @@ This will create VneedU-Server directory in your current directory and source fi
 
 The project is written in Java and uses gradle to solve dependencies. 
 
-In order to build and deploy the project, you need to install gradle in system.
+In order to build and deploy the project, you need to install gradle on system.
 
 ### Executing a build with the Wrapper
 
