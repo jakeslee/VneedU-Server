@@ -14,6 +14,7 @@ allprojects {
 
     repositories {
         mavenLocal()
+        maven { url 'http://maven.gkc.asia/content/groups/public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://120.52.72.21/repo2.maven.org/maven2/' }
         maven { url 'http://repo2.maven.org/maven2/' }
