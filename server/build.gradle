@@ -4,7 +4,8 @@ apply plugin: 'org.akhikhl.gretty'
 
 buildscript {
     repositories {
-        maven { url 'http://maven.oschina.net/content/groups/public/' }
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'http://maven.gkc.asia/content/groups/public/' }
         maven { url 'http://repo2.maven.org/maven2/' }
         mavenCentral()
         jcenter()
