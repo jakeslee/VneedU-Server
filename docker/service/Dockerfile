@@ -1,5 +1,5 @@
 # jakes/vneedu-provider
-FROM jakes:java8-jdk
+FROM jakes/java8-jdk
 MAINTAINER Jakes Lee <jakeslee66@gmail.com>
 
 VOLUME /app/conf

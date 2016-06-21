@@ -3,16 +3,18 @@ version: '2'
 services:
   base:
     build: base/
-    image: jakes:java8-jdk
+    image: jakes/java8-jdk
   producer:
     build: producer/
-    image: jakes:vneedu-pack-producer
+    image: jakes/vneedu-pack-producer
     volumes:
       - /app
     depends_on:
       - base
   provider:
     build: service/
-    image: jakes:vneedu-provider
+    image: jakes/vneedu-provider
+    environments:
+      - app.soa.provider.dubbo.host=${PROVIDER_HOST}
     volumes_from:
       - producer

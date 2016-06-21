@@ -1,5 +1,5 @@
 # jakes/vneedu-pack-producer
-FROM jakes:java8-jdk
+FROM jakes/java8-jdk
 MAINTAINER Jakes Lee <jakeslee66@gmail.com>
 
 ENV TOMCAT_WEBAPPS /usr/local/tomcat/webapps
