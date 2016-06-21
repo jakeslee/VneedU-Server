@@ -14,7 +14,7 @@ services:
   provider:
     build: service/
     image: jakes/vneedu-provider
-    environments:
+    environment:
       - app.soa.provider.dubbo.host=${PROVIDER_HOST}
     volumes_from:
       - producer
