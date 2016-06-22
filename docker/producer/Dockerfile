@@ -8,7 +8,7 @@ COPY . /app/scripts/
 WORKDIR /app
 
 RUN yum install -y git unzip \
-    && git clone -b dev https://github.com/jakeslee/VneedU-Server.git
+    && git clone https://github.com/jakeslee/VneedU-Server.git
 
 VOLUME ["$TOMCAT_WEBAPPS", "/app"]
 
