@@ -4,15 +4,12 @@ MAINTAINER Jakes Lee <jakeslee66@gmail.com>
 
 ENV TOMCAT_WEBAPPS /usr/local/tomcat/webapps
 
-RUN yum install -y git unzip
-RUN mkdir -p /app "$TOMCAT_WEBAPPS"
-
-COPY build-project.sh /app
+COPY . /app/scripts/
 WORKDIR /app
 
-RUN git clone https://github.com/jakeslee/VneedU-Server.git
+RUN yum install -y git unzip \
+    && git clone -b dev https://github.com/jakeslee/VneedU-Server.git
 
-VOLUME $TOMCAT_WEBAPPS
-VOLUME /app
+VOLUME ["$TOMCAT_WEBAPPS", "/app"]
 
-CMD ["/app/build-project.sh"]
+CMD /app/scripts/build-project.sh

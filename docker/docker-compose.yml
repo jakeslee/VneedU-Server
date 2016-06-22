@@ -9,12 +9,18 @@ services:
     image: jakes/vneedu-pack-producer
     volumes:
       - /app
+    command: "/app/scripts/build-project.sh"
     depends_on:
       - base
   provider:
     build: service/
     image: jakes/vneedu-provider
+    hostname: provider
     environment:
-      - app.soa.provider.dubbo.host=${PROVIDER_HOST}
+      TOMCAT_WEBAPPS: /usr/local/tomcat/webapps
+      PROVIDER_HOST: ${PROVIDER_HOST}
+      app.soa.registry.address: ${REGISTRY_ADDR}
     volumes_from:
       - producer
+    depends_on:
+      - base
